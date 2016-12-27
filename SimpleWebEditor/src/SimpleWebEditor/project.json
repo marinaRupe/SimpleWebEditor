@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-SimpleWebEditor-b54778fd-dc8a-4ac1-9652-8bbfa1e90b8c",
 
   "dependencies": {
@@ -43,8 +43,7 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
-  },
+    }},
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",

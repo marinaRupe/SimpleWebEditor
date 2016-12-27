@@ -1,0 +1,31 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Page editor";
+    Layout = "_Layout";
+}
+
+
+<div id="headerMenu" class="headerMenu">
+    <button id="loadWorkPageButton" class="headerMenuButton btn">Učitaj radnu stranicu</button>
+    <button id="loadPublishedPageButton" class="headerMenuButton btn">Učitaj objavljenu stranicu</button>
+    <button id="removeInsidePageButton" class="headerMenuButton btn" >Ukloni stranicu</button>
+    <button id="openInNewWindowButton" class="headerMenuButton btn">Otvori stranicu u novom prozoru</button>
+    <button id="savePageButton" class="headerMenuButton btn">Spremi promjene</button>
+    <button id="publishPageButton" class="headerMenuButton btn">Objavi stranicu</button>
+</div>
+
+<div id="editor" class="editor">
+    <div id="loadedPageFrame" class="loadedPageFrame"></div>
+    <div id="editPanel" class="editPanel"></div>
+</div>
+
+<div id="templatesPanel" class="templatesPanel">
+    <p class="chooseTemplateLabel">Izaberi predložak web stranice:</p>
+</div>
+
+<div id="footer" class="footer">
+</div>
+  
+
+
