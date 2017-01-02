@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SimpleWebEditor", "src\SimpleWebEditor\SimpleWebEditor.xproj", "{6F2BE460-5690-439A-B4A3-EBD660714BC8}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SimpleWebEditorApplication", "src\SimpleWebEditorApplication\SimpleWebEditorApplication.xproj", "{F2CD4839-37FF-45E9-B121-902093A61EC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,15 +18,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6F2BE460-5690-439A-B4A3-EBD660714BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F2BE460-5690-439A-B4A3-EBD660714BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F2BE460-5690-439A-B4A3-EBD660714BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F2BE460-5690-439A-B4A3-EBD660714BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2CD4839-37FF-45E9-B121-902093A61EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2CD4839-37FF-45E9-B121-902093A61EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2CD4839-37FF-45E9-B121-902093A61EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2CD4839-37FF-45E9-B121-902093A61EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6F2BE460-5690-439A-B4A3-EBD660714BC8} = {952C4668-1E4C-4F67-A7F7-9199870BB552}
+		{F2CD4839-37FF-45E9-B121-902093A61EC5} = {952C4668-1E4C-4F67-A7F7-9199870BB552}
 	EndGlobalSection
 EndGlobal
