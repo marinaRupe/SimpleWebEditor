@@ -5,27 +5,67 @@
     Layout = "_Layout";
 }
 
+<link rel="stylesheet" type="text/css" href="~/css/pageEditor.css" />
 
-<div id="headerMenu" class="headerMenu">
-    <button id="loadWorkPageButton" class="headerMenuButton btn">Učitaj radnu stranicu</button>
-    <button id="loadPublishedPageButton" class="headerMenuButton btn">Učitaj objavljenu stranicu</button>
-    <button id="removeInsidePageButton" class="headerMenuButton btn" >Ukloni stranicu</button>
-    <button id="openInNewWindowButton" class="headerMenuButton btn">Otvori stranicu u novom prozoru</button>
-    <button id="savePageButton" class="headerMenuButton btn">Spremi promjene</button>
-    <button id="publishPageButton" class="headerMenuButton btn">Objavi stranicu</button>
+<!-- Override bootstrap:-->
+<style>
+    body {
+        background: #474949;
+    }
+
+    h1, h3 {
+        font-weight: bold;
+    }
+
+    img {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    .row {
+        background-color: white;
+        margin: 2vh 0;
+    }
+
+    .col {
+        margin: 3vh 0;
+        overflow: auto;
+    }
+</style>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- Include color picker (link: http://www.eyecon.ro/colorpicker/) -->
+<link rel="stylesheet" href="~/lib/colorpicker/css/colorpicker.css" />
+<script src="~/lib/colorpicker/js/colorpicker.js"></script>
+
+
+<div id="headerMenu" class="btn-group btn-group-justified">
+    <a id="loadWorkPageButton" class="btn btn-primary btn-sm" style="">Učitaj radnu stranicu</a>
+    <a id="loadPublishedPageButton" class="btn btn-primary btn-sm">Učitaj objavljenu stranicu</a>
+    <a id="removeInsidePageButton" class="btn btn-primary btn-sm" onclick="emptyPageEditor()">Ukloni stranicu</a>
+    <a id="openInNewWindowButton" class="btn btn-primary btn-sm">Otvori u novom prozoru</a>
+    <a id="savePageButton" class="btn btn-primary btn-sm">Spremi promjene</a>
+    <a id="publishPageButton" class="btn btn-info btn-sm">Objavi stranicu</a>
+    
+    <a class="btn btn-danger btn-sm" href="#">Izađi iz editora</a>
 </div>
 
-<div id="editor" class="editor">
-    <div id="loadedPageFrame" class="loadedPageFrame"></div>
-    <div id="editPanel" class="editPanel"></div>
+<div id="editor" class="row">
+    <div id="loadedPageFrame" class="col col-md-9"></div>
+    <div id="editPanel" class="col col-md-3"></div>
 </div>
 
-<div id="templatesPanel" class="templatesPanel">
+<div id="templatesPanel" class="row">
     <p class="chooseTemplateLabel">Izaberi predložak web stranice:</p>
 </div>
 
-<div id="footer" class="footer">
-</div>
+
+<script src="~/js/shared.js" asp-append-version="true"></script>
+<script src="~/js/editPanel.js" asp-append-version="true"></script>
+<script src="~/js/pageEditor.js" asp-append-version="true"></script>
   
 
 

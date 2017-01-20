@@ -1,8 +1,7 @@
-// TODO: jel ovo potrebno?
-const HTML_FILES_PATH = '/childweb/servlets';
-const FILES_PATH = '../files';
-const CSS_FILES_PATH = '../files/styles';
-const JS_FILES_PATH = '../files/scripts';
+const HTML_FILES_PATH = '...';
+const FILES_PATH = '...';
+const CSS_FILES_PATH = '...';
+const JS_FILES_PATH = '...';
 
 
 function getCookie(cname) {
