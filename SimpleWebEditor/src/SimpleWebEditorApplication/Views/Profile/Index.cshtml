@@ -1,0 +1,55 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "_Layout";
+}
+
+<!-- Include CSS stylesheets:-->
+<link rel="stylesheet" type="text/css" href="~/css/userDataPages.css" />
+
+<section id="main">
+    <h1 style="text-align: center">Profile</h1>
+    <hr />
+    <br>
+    <div class="col-md-9 col-lg-9">
+        <table class="table table-user-information">
+            <tbody>
+            <tr>
+                <td>Username:</td>
+                <td>"input: username"</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>"input : email"</td>
+            </tr>
+            <tr>
+                <td>First name:</td>
+                <td>"input: firstName"</td>
+            </tr>
+
+            <tr>
+            <tr>
+                <td>Last name:</td>
+                <td>"input: lastName"</td>
+            </tr>
+            <tr>
+                <td>Birth date:</td>
+                <td>"input: birthDate"</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-10 col-lg-offset-2">
+        <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", "Profile")'">Edit profile</button>
+    </div>
+
+</section>
+
+<!-- Load javascript files: -->
+<script>
+    function openProfilePageEdit() {
+    }
+</script>

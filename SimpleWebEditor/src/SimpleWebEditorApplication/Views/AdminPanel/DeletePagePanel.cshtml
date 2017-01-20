@@ -1,0 +1,35 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Admin panel";
+    Layout = "_Layout";
+}
+
+<section id="main">
+    <h1>Administrator</h1>
+    <hr />
+    <div class="container">
+
+        @Html.Partial("AdminPanelTabs")
+        <hr />
+
+        <form class="form-horizontal">
+            <fieldset>
+                <legend>Delete user page</legend>
+                <div class="form-group">
+                    <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+                    <div class="col-lg-10">
+                        <input name="username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</section>
