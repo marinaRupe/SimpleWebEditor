@@ -2,7 +2,7 @@
 
 namespace SimpleWebEditorApplication.Core.Interfaces
 {
-    public interface IAccountRepository : IRepository<Account>
+    public interface IAccountRepository : IRepository<string, Account>
     {
     }
 }
