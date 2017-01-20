@@ -69,9 +69,9 @@ namespace SimpleWebEditorApplication
 
             // Add core dependencies
             services.AddScoped<CoreDbContext>(db => new CoreDbContext(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddTransient<IPageRepository, PageRepository>();
-            services.AddTransient<IUserRequestRepository, UserRequestRepository>();
+            services.AddTransient<IAccountRepository, AccountSqlRepository>();
+            services.AddTransient<IPageRepository, PageSqlRepository>();
+            services.AddTransient<IUserRequestRepository, UserRequestSqlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
