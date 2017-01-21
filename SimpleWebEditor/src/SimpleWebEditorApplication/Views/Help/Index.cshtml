@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model SimpleWebEditorApplication.Models.HelpViewModels.SendRequestViewModel
 
 @{
     ViewBag.Title = "Help";
@@ -6,22 +6,18 @@
 }
 
 
-<section id="main">
-    <h1 style="text-align: center">Admin request</h1>
-    <hr />
-    <form class="form-horizontal">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="textArea" class="control-label"></label>
-                <textarea name="request" class="form-control" rows="3" id="textArea" maxlength="255" placeholder="Write your request..."></textarea>
-            </div>
+<h1 style="text-align: center">Admin request</h1>
+<hr />
+<form asp-controller="Help" asp-action="SendRequest" method="post" class="form-horizontal">
+    <div class="col-md-12">
+        <div class="form-group">
+            <textarea asp-for="Description" class="form-control" rows="3" maxlength="255" placeholder="Write your request..."></textarea>
         </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <button type="reset" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="reset" class="btn btn-default">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-    </form>
-
-</section>
+    </div>
+</form>
