@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using SimpleWebEditorApplication.Core.Interfaces;
+using SimpleWebEditorApplication.Core.Models;
 using SimpleWebEditorApplication.Models;
 using SimpleWebEditorApplication.Models.AccountViewModels;
 using SimpleWebEditorApplication.Services;
@@ -23,18 +25,24 @@ namespace SimpleWebEditorApplication.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
+        //private readonly RoleManager<ApplicationUser> _roleManager;
+        private readonly IAccountRepository _accountRepository;
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IAccountRepository accountRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            
+            _accountRepository = accountRepository;
         }
 
         //
@@ -105,7 +113,14 @@ namespace SimpleWebEditorApplication.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var coreUser = new Account(model.UserName)
+                {
+                    FirstName = model.FirstName,
+                    Surname = model.Surname,
+                    BirthDate = model.BirthDate
+                };
+                _accountRepository.Add(coreUser);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -43,6 +43,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
             {
                 return false;
             }
+            item.DeleteFile();
             _context.Pages.Remove(item);
             _context.SaveChanges();
             return true;

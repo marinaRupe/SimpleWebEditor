@@ -16,12 +16,14 @@ namespace SimpleWebEditorApplication.Core.Repositories
             if (item == null)
             {
                 return false;
-            }
+            }/*
             if (_context.Accounts.Contains(item))
             {
                 return false;
-            }
+            }*/
             _context.Accounts.Add(item);
+            _context.Pages.Add(item.WorkPage);
+            _context.Pages.Add(item.PublishedPage);
             _context.SaveChanges();
             return true;
         }
@@ -42,6 +44,8 @@ namespace SimpleWebEditorApplication.Core.Repositories
             {
                 return false;
             }
+            item.WorkPage.DeleteFile();
+            item.PublishedPage.DeleteFile();
             _context.Accounts.Remove(item);
             _context.SaveChanges();
             return true;

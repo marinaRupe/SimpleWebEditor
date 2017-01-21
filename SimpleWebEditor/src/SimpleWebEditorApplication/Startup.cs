@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using SimpleWebEditorApplication.Core;
 using SimpleWebEditorApplication.Core.Interfaces;
@@ -20,6 +24,9 @@ namespace SimpleWebEditorApplication
 {
     public class Startup
     {
+        public const string FILE_SERVER = "/UserPages";
+        
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -38,6 +45,7 @@ namespace SimpleWebEditorApplication
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -61,6 +69,7 @@ namespace SimpleWebEditorApplication
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+
             services.AddMvc();
 
             // Add application services.
@@ -72,6 +81,7 @@ namespace SimpleWebEditorApplication
             services.AddTransient<IAccountRepository, AccountSqlRepository>();
             services.AddTransient<IPageRepository, PageSqlRepository>();
             services.AddTransient<IUserRequestRepository, UserRequestSqlRepository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,6 +106,14 @@ namespace SimpleWebEditorApplication
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer")),
+                    RequestPath = new PathString(FILE_SERVER),
+                    EnableDirectoryBrowsing = true
+            });
 
             app.UseIdentity();
 
