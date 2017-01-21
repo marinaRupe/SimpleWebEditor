@@ -37,7 +37,6 @@ namespace SimpleWebEditorApplication.Core.Models
 
         public bool CreateFile()
         {
-            var root = Directory.GetCurrentDirectory();
             var dir = Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer");
             var path = dir + PagePath;
             if (File.Exists(path)) return false;
@@ -47,10 +46,8 @@ namespace SimpleWebEditorApplication.Core.Models
 
         public bool DeleteFile()
         {
-            var root = Directory.GetCurrentDirectory();
             var dir = Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer");
-            var dir2 = Path.Combine(Directory.GetCurrentDirectory(), "/UserPages");
-            var path = Path.Combine(dir, PagePath);
+            var path = dir + PagePath;
             if (!File.Exists(path)) return false;
             try
             {
