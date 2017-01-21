@@ -13,5 +13,17 @@ namespace SimpleWebEditorApplication.Core.Models
 
         [Required]
         public string Description { get; set; }
+
+        public UserRequest()
+        {
+            // entity framework needs this one
+        }
+
+        public UserRequest(Account sender, string description)
+        {
+            Id = Guid.NewGuid();
+            Sender = sender;
+            Description = description;
+        }
     }
 }

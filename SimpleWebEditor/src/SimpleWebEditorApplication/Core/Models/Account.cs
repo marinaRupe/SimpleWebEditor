@@ -21,5 +21,17 @@ namespace SimpleWebEditorApplication.Core.Models
         public Page WorkPage { get; set; }
 
         public Page PublishedPage { get; set; }
+
+        public Account()
+        {
+            // entity framework needs this one
+        }
+
+        public Account(string userName)
+        {
+            UserName = userName;
+            WorkPage = new Page(this, false);
+            PublishedPage = new Page(this, true);
+        }
     }
 }
