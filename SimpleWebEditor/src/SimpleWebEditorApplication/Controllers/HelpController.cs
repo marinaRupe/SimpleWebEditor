@@ -21,6 +21,7 @@ namespace SimpleWebEditorApplication.Controllers
         public IActionResult SendRequest(SendRequestViewModel model)
         {
             var description = model.Description;
+            //var request = new UserRequest(sender, description);
 
             return RedirectToAction("Index");
         }

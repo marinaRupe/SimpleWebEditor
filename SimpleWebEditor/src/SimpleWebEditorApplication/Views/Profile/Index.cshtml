@@ -8,43 +8,41 @@
 <!-- Include CSS stylesheets:-->
 <link rel="stylesheet" type="text/css" href="~/css/userDataPages.css" />
 
-<section id="main">
-    <h1 style="text-align: center">Profile</h1>
-    <hr />
-    <br>
-    <div class="col-md-9 col-lg-9">
-        <table class="table table-user-information">
-            <tbody>
-            <tr>
-                <td><label asp-for="Username"></label></td>
-                <td>@Model.Username</td>
-            </tr>
-            <tr>
-                <td><label asp-for="Email"></label></td>
-                <td>@Model.Email</td>
-            </tr>
-            <tr>
-                <td><label asp-for="FirstName"></label></td>
-                <td>@Model.FirstName</td>
-            </tr>
-            <tr>
-                <td><label asp-for="LastName"></label></td>
-                <td>@Model.LastName</td>
-            </tr>
-            <tr>
-                <td><label asp-for="BirthDate"></label></td>
-                <td>@Model.BirthDate</td>
-            </tr>
+<h1 style="text-align: center">Profile</h1>
+<hr />
+<br>
+<div class="col-md-9 col-lg-9" style="width: 100%">
+    <table class="table table-user-information">
+        <tbody>
+        <tr>
+            <td><label asp-for="Username"></label></td>
+            <td>@Model.Username</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Email"></label></td>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <td><label asp-for="FirstName"></label></td>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <td><label asp-for="LastName"></label></td>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <td><label asp-for="BirthDate"></label></td>
+            <td>@Model.BirthDate</td>
+        </tr>
 
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 
-    <div class="col-lg-10 col-lg-offset-2">
-        <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", "Profile")'">Edit profile</button>
-    </div>
+<div class="col-lg-10 col-lg-offset-2">
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit", "Profile")'">Edit profile</button>
+</div>
 
-</section>
 
 <!-- Load javascript files: -->
 <script>
