@@ -1,5 +1,4 @@
 const TEMPLATES_PATH = '../html/templates/';
-const ADMIN_PAGE_PATH = HTML_FILES_PATH + '/adminPage';
 const PICTURES_PATH = FILES_PATH + '/pictures/';
 const TEMPLATE_PICTURES_PATH = "../images/";
 const SAVE_WORK_PAGE_PATH = HTML_FILES_PATH + '/saveWorkPage';
@@ -11,16 +10,14 @@ const PAGE_TYPE_COOKIE = "ChildWeb.pageType";
 const PUBLISHED_PAGE = "PUBLISHED_PAGE";
 const WORK_PAGE = "WORK_PAGE";
 
-const SAVED_PAGE_MESSAGE = "Izmjene su spremljene.";
-const PAGE_NOT_SAVED_MESSAGE = "Spremanje izmjena nije uspjelo.";
-const PUBLISHED_PAGE_MESSAGE = "Stranica je objavljena.";
-const PAGE_NOT_PUBLISHED_MESSAGE = "Stranica nije objavljena.";
+const SAVED_PAGE_MESSAGE = "Changes are successfully saved.";
+const PAGE_NOT_SAVED_MESSAGE = "Failed to save changes.";
+const PUBLISHED_PAGE_MESSAGE = "Page has been successfully published.";
+const PAGE_NOT_PUBLISHED_MESSAGE = "Failed to publish page";
 
 pageEditorSetup();
 
 function pageEditorSetup() {
-    setLoadWorkPageButton();
-    setLoadPublishedPageButton();
     setOpenInNewWindowButton(LOAD_WORK_PAGE_PATH);
     setSavePageButton();
     setPublishPageButton();
@@ -30,30 +27,9 @@ function pageEditorSetup() {
 }
 
 
-function openAdminPage() {
-    window.location.href = ADMIN_PAGE_PATH;
-}
-
-
-function setLoadWorkPageButton() {
-    $(document).ready(function () {
-        $("#loadWorkPageButton").click(function () {
-            var random = '?' + 'random=' + Math.random().toString();
-            loadPageToEditor(LOAD_WORK_PAGE_PATH + random);
-            setOpenInNewWindowButton(LOAD_WORK_PAGE_PATH + random);
-        });
-    });
-}
-
-
-function setLoadPublishedPageButton() {
-    $(document).ready(function () {
-        $("#loadPublishedPageButton").click(function () {
-            var random = '?' + 'random=' + Math.random().toString();
-            loadPageToEditor(LOAD_PUBLISHED_PAGE_PATH + random);
-            setOpenInNewWindowButton(LOAD_PUBLISHED_PAGE_PATH + random);
-        });
-    });
+function loadPage(pagePath) {
+    loadPageToEditor(pagePath);
+    setOpenInNewWindowButton(pagePath);
 }
 
 

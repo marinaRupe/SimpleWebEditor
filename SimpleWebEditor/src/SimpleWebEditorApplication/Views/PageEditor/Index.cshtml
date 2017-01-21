@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model SimpleWebEditorApplication.Models.PageEditorViewModels.IndexViewModel
 
 @{
     ViewBag.Title = "Page editor";
@@ -41,12 +41,12 @@
 
 
 <div id="headerMenu" class="btn-group btn-group-justified">
-    <a id="loadWorkPageButton" class="btn btn-primary btn-sm" style="">Učitaj radnu stranicu</a>
-    <a id="loadPublishedPageButton" class="btn btn-primary btn-sm">Učitaj objavljenu stranicu</a>
-    <a id="removeInsidePageButton" class="btn btn-primary btn-sm" onclick="emptyPageEditor()">Ukloni stranicu</a>
-    <a id="openInNewWindowButton" class="btn btn-primary btn-sm">Otvori u novom prozoru</a>
-    <a id="savePageButton" class="btn btn-primary btn-sm">Spremi promjene</a>
-    <a id="publishPageButton" class="btn btn-info btn-sm">Objavi stranicu</a>
+    <a id="loadWorkPageButton" class="btn btn-primary btn-sm" onclick="loadPage(@Model.WorkPagePath)">Load work page</a>
+    <a id="loadPublishedPageButton" class="btn btn-primary btn-sm" onclick="loadPage(@Model.PublishedPagePath)">Load published page</a>
+    <a id="removeInsidePageButton" class="btn btn-primary btn-sm" onclick="emptyPageEditor()">Remove page</a>
+    <a id="openInNewWindowButton" class="btn btn-primary btn-sm">Open in new window</a>
+    <a id="savePageButton" class="btn btn-primary btn-sm">Save changes</a>
+    <a id="publishPageButton" class="btn btn-info btn-sm">Publish page</a>
 </div>
 
 <div id="editor" class="row">
@@ -55,7 +55,7 @@
 </div>
 
 <div id="templatesPanel" class="row">
-    <p class="chooseTemplateLabel">Izaberi predložak web stranice:</p>
+    <p class="chooseTemplateLabel">Choose page template:</p>
 </div>
 
 

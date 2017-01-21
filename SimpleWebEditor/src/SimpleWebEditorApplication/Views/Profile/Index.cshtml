@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model SimpleWebEditorApplication.Models.ProfileViewModels.IndexViewModel
 
 @{
     ViewBag.Title = "Profile";
@@ -16,26 +16,24 @@
         <table class="table table-user-information">
             <tbody>
             <tr>
-                <td>Username:</td>
-                <td>"input: username"</td>
+                <td><label asp-for="Username"></label></td>
+                <td>@Model.Username</td>
             </tr>
             <tr>
-                <td>Email:</td>
-                <td>"input : email"</td>
+                <td><label asp-for="Email"></label></td>
+                <td>@Model.Email</td>
             </tr>
             <tr>
-                <td>First name:</td>
-                <td>"input: firstName"</td>
-            </tr>
-
-            <tr>
-            <tr>
-                <td>Last name:</td>
-                <td>"input: lastName"</td>
+                <td><label asp-for="FirstName"></label></td>
+                <td>@Model.FirstName</td>
             </tr>
             <tr>
-                <td>Birth date:</td>
-                <td>"input: birthDate"</td>
+                <td><label asp-for="LastName"></label></td>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <td><label asp-for="BirthDate"></label></td>
+                <td>@Model.BirthDate</td>
             </tr>
 
             </tbody>

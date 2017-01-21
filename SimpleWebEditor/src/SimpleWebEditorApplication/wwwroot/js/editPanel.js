@@ -36,7 +36,7 @@ function showEditPanel(elementToChange) {
 
 function showEditPanelHeader(parentElement) {
     var optionsLabel = document.createElement("h1");
-    optionsLabel.innerHTML = "Opcije";
+    optionsLabel.innerHTML = "Options";
     optionsLabel.className = "editPanelHeader";
     parentElement.appendChild(optionsLabel);
 }
@@ -44,7 +44,7 @@ function showEditPanelHeader(parentElement) {
 
 function createTitleChanger(parentElement) {
     var changeTitleLabel = document.createElement("p");
-    changeTitleLabel.innerHTML = "Promijeni naslov web stranice:";
+    changeTitleLabel.innerHTML = "Change web page title:";
     changeTitleLabel.className = "editPanelLabel";
     parentElement.appendChild(changeTitleLabel);
 
@@ -65,14 +65,14 @@ function createTitleChanger(parentElement) {
     titleInputGroup.appendChild(titleButtonSpan);
 
     var titleInputButton = document.createElement("button");
-    titleInputButton.innerHTML = "Promijeni";
+    titleInputButton.innerHTML = "Change";
     titleInputButton.id = "titleInputButton";
     titleInputButton.className = "btn-primary btn-sm";
     titleButtonSpan.appendChild(titleInputButton);
 
     $(document).ready(function () {
         $("#titleInputButton").click(function () {
-            alert("Naslov stranice promijenjen u " + titleInput.value + ".");
+            alert("Web page title changed to: " + titleInput.value + ".");
             document.getElementsByTagName("title")[1].innerHTML = titleInput.value;
         });
     });
@@ -81,7 +81,7 @@ function createTitleChanger(parentElement) {
 
 function createImageFromURLSelector(parentElement, elementToChange) {
     var imageFromURLSelectorLabel = document.createElement("p");
-    imageFromURLSelectorLabel.innerHTML = "Odaberi sliku putem poveznice:";
+    imageFromURLSelectorLabel.innerHTML = "Choose image via URL:";
     imageFromURLSelectorLabel.className = "imageURLPanelLabel";
     parentElement.appendChild(imageFromURLSelectorLabel);
 
@@ -96,7 +96,7 @@ function createImageFromURLSelector(parentElement, elementToChange) {
     urlUploadButtonSpan.className = "input-group-btn";
 
     var urlUploadButton = document.createElement("button");
-    urlUploadButton.innerHTML = "Učitaj";
+    urlUploadButton.innerHTML = "Load";
     urlUploadButton.className = "btn-primary btn-sm";
     urlUploadButtonSpan.appendChild(urlUploadButton);
 
@@ -111,23 +111,22 @@ function createImageFromURLSelector(parentElement, elementToChange) {
             //TODO add url to constants
             var url = HTML_FILES_PATH + '/uploadPicture';
             var data = JSON.stringify({ "imageURL": imageURLText.value });
-            var url =
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: data,
-                    cache: false,
-                    contentType: 'application/json; charset=UTF-8',
-                    success: function (data, textStatus, jqXHR) {
-                        elementToChange.src = data;
-                        alert("Slika je uspješno učitana.");
-                    },
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                cache: false,
+                contentType: 'application/json; charset=UTF-8',
+                success: function (data, textStatus, jqXHR) {
+                    elementToChange.src = data;
+                    alert("Slika je uspješno učitana.");
+                },
 
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert("Greška kod učitavanja slike.");
-                        // alert(errorThrown); // check which error is thrown
-                    }
-                });
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Greška kod učitavanja slike.");
+                    // alert(errorThrown); // check which error is thrown
+                }
+            });
         }
     };
 }
@@ -135,7 +134,7 @@ function createImageFromURLSelector(parentElement, elementToChange) {
 
 function createImageFromFileSelector(parentElement, elementToChange) {
     var imageFromFileSelectorLabel = document.createElement("p");
-    imageFromFileSelectorLabel.innerHTML = "<br />Odaberi sliku s računala:";
+    imageFromFileSelectorLabel.innerHTML = "<br />Choose image from computer:";
     imageFromFileSelectorLabel.className = "imageFilePanelLabel";
     parentElement.appendChild(imageFromFileSelectorLabel);
 
@@ -176,12 +175,11 @@ function createImageFromFileSelector(parentElement, elementToChange) {
 
     fileUploadButton.onclick = function () {
         if (fileInput == null) {
-            window.alert("Slika nije odabrana.");
+            window.alert("Image is not chosen.");
         } else {
             //TODO add url to constants
             var url = HTML_FILES_PATH + '/uploadPicture';
             var data = JSON.stringify({ "image": dataURL });
-            var url =
             $.ajax({
                 type: "POST",
                 url: url,
@@ -205,7 +203,7 @@ function createImageFromFileSelector(parentElement, elementToChange) {
 
 function createBackgroundColorSelector(parentElement, elementToChange) {
     var backgroundColorSelectorLabel = document.createElement("p");
-    backgroundColorSelectorLabel.innerHTML = "Promijeni boju pozadine:";
+    backgroundColorSelectorLabel.innerHTML = "Change background color:";
     backgroundColorSelectorLabel.className = "editPanelLabel";
     parentElement.appendChild(backgroundColorSelectorLabel);
 
@@ -222,7 +220,7 @@ function createBackgroundColorSelector(parentElement, elementToChange) {
 
 function createFontColorSelector(parentElement, elementToChange) {
     var fontColorSelectorLabel = document.createElement("p");
-    fontColorSelectorLabel.innerHTML = "Promijeni boju teksta:";
+    fontColorSelectorLabel.innerHTML = "Change text color:";
     fontColorSelectorLabel.className = "editPanelLabel";
     parentElement.appendChild(fontColorSelectorLabel);
 
@@ -258,7 +256,7 @@ function addColorPickerEventListener(colorPicker, elementToChange, propertyToCha
 
 function createFontSelector(parentElement, elementToChange) {
     var fontSelectorLabel = document.createElement("p");
-    fontSelectorLabel.innerHTML = "Izaberi font:";
+    fontSelectorLabel.innerHTML = "Choose font:";
     fontSelectorLabel.className = "editPanelLabel";
     parentElement.appendChild(fontSelectorLabel);
 
@@ -306,7 +304,7 @@ function createFontSelector(parentElement, elementToChange) {
 
 function createFontSizeSelector(parentElement, elementToChange) {
     var fontSizeSelectorLabel = document.createElement("p");
-    fontSizeSelectorLabel.innerHTML = "Izaberi veličinu fonta:";
+    fontSizeSelectorLabel.innerHTML = "Choose font size:";
     fontSizeSelectorLabel.className = "editPanelLabel";
     parentElement.appendChild(fontSizeSelectorLabel);
 
