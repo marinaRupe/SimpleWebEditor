@@ -117,7 +117,7 @@ namespace SimpleWebEditorApplication.Controllers
                 var coreUser = new Account(model.UserName)
                 {
                     FirstName = model.FirstName,
-                    Surname = model.Surname,
+                    LastName = model.LastName,
                     BirthDate = model.BirthDate
                 };
                 _accountRepository.Add(coreUser);

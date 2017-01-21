@@ -18,10 +18,11 @@ namespace SimpleWebEditorApplication.Core.Repositories
             {
                 return false;
             }
-            if (_context.Pages.Contains(item))
+            if (_context.Pages.Select(p => p.Id).Contains(item.Id))
             {
                 return false;
             }
+            item.CreateFile();
             _context.Pages.Add(item);
             _context.SaveChanges();
             return true;

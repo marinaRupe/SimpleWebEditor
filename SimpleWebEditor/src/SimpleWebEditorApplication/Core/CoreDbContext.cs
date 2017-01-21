@@ -16,8 +16,7 @@ namespace SimpleWebEditorApplication.Core
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Account>().HasOptional(acc => acc.WorkPage).WithRequired(page => page.Owner).WillCascadeOnDelete(true);
-            modelBuilder.Entity<Account>().HasOptional(acc => acc.PublishedPage).WithRequired(page => page.Owner).WillCascadeOnDelete(true);
+            modelBuilder.Entity<Account>().HasMany(acc => acc.Pages).WithRequired(p => p.Owner);
             modelBuilder.Entity<UserRequest>().HasRequired(req => req.Sender).WithOptional();
         }
     }

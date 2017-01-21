@@ -16,14 +16,16 @@ namespace SimpleWebEditorApplication.Core.Repositories
             if (item == null)
             {
                 return false;
-            }/*
-            if (_context.Accounts.Contains(item))
+            }
+            if (_context.Accounts.Select(acc => acc.UserName).Contains(item.UserName))
             {
                 return false;
-            }*/
+            }
             _context.Accounts.Add(item);
-            _context.Pages.Add(item.WorkPage);
-            _context.Pages.Add(item.PublishedPage);
+            var workPage = new Page(item, false);
+            _context.Pages.Add(workPage);
+            var publishedPage = new Page(item, true);
+            _context.Pages.Add(publishedPage);
             _context.SaveChanges();
             return true;
         }

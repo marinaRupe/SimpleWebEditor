@@ -18,7 +18,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
             {
                 return false;
             }
-            if (_context.UserRequests.Contains(item))
+            if (_context.UserRequests.Select(ur => ur.Id).Contains(item.Id))
             {
                 return false;
             }

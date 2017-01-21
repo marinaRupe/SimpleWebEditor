@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SimpleWebEditorApplication.Core.Models
@@ -14,13 +15,21 @@ namespace SimpleWebEditorApplication.Core.Models
 
         public string FirstName { get; set; }
 
-        public string Surname { get; set; }
+        public string LastName { get; set; }
 
         public DateTime? BirthDate { get; set; }
 
-        public Page WorkPage { get; set; }
+        public List<Page> Pages { get; set; }
 
-        public Page PublishedPage { get; set; }
+        public Page WorkPage
+        {
+            get { return Pages.Find(p => !p.IsPublished); }
+        }
+
+        public Page PublishedPage
+        {
+            get { return Pages.Find(p => p.IsPublished); }
+        }
 
         public Account()
         {
@@ -30,8 +39,6 @@ namespace SimpleWebEditorApplication.Core.Models
         public Account(string userName)
         {
             UserName = userName;
-            WorkPage = new Page(this, false);
-            PublishedPage = new Page(this, true);
         }
     }
 }
