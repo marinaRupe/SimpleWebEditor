@@ -20,7 +20,8 @@ namespace SimpleWebEditorApplication.Models.ProfileViewModels
         [Display(Name = "Last name:")]
         public string LastName { get; set; }
 
-        [Display(Name = "Birth date:")]
-        public string BirthDate { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Birth date")]
+        public DateTime BirthDate { get; set; }
     }
 }

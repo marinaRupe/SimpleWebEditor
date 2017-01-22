@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleWebEditorApplication.Models.ProfileViewModels;
@@ -16,7 +17,7 @@ namespace SimpleWebEditorApplication.Controllers
                 Email = "marina.rupe@fer.hr",
                 FirstName = "Marina",
                 LastName = "Rupe",
-                BirthDate = "06.12.1995."
+                BirthDate = new DateTime(1995, 12, 6)
             };
         }
         public IActionResult Index()
@@ -34,6 +35,7 @@ namespace SimpleWebEditorApplication.Controllers
         {
             _userData.FirstName = model.FirstName;
             _userData.LastName = model.LastName;
+            _userData.BirthDate = model.BirthDate;
 
             return View("Index", _userData);
         }
