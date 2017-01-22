@@ -6,8 +6,8 @@ namespace SimpleWebEditorApplication.Core.Models
 {
     public class Page
     {
-        public const string PUBLISHED_PAGE_PATH = "/publishedPages/";
-        public const string WORK_PAGE_PATH = "/workPages/";
+        public const string PUBLISHED_PAGE_PATH = "/PublishedPages/";
+        public const string WORK_PAGE_PATH = "/WorkPages/";
 
         [Key]
         public Guid Id { get; set; }
@@ -33,6 +33,11 @@ namespace SimpleWebEditorApplication.Core.Models
             IsPublished = published;
             PagePath = (published ? PUBLISHED_PAGE_PATH : WORK_PAGE_PATH) + owner.UserName + ".html";
             CreateFile();
+        }
+
+        public string RequestPagePath()
+        {
+            return Startup.FILE_SERVER + PagePath;
         }
 
         public bool CreateFile()

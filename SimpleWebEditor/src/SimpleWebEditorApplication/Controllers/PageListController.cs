@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SimpleWebEditorApplication.Core.Interfaces;
 using SimpleWebEditorApplication.Models.PageListViewModels;
 
 namespace SimpleWebEditorApplication.Controllers
 {
     public class PageListController : Controller
     {
+        private readonly IPageRepository _pageRepository;
+
+        public PageListController(IPageRepository pageRepository)
+        {
+            _pageRepository = pageRepository;
+        }
+
         public IActionResult Index()
         {
 
@@ -27,6 +35,11 @@ namespace SimpleWebEditorApplication.Controllers
 
 
             return View(pageList);
+        }
+
+        private List<IndexViewModel> CreateIndexViewModelList()
+        {
+            return null;
         }
     }
 }
