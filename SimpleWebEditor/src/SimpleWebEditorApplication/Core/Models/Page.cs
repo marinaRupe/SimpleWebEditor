@@ -37,8 +37,7 @@ namespace SimpleWebEditorApplication.Core.Models
 
         public bool CreateFile()
         {
-            var dir = Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer");
-            var path = dir + PagePath;
+            var path = CalculatePath();
             if (File.Exists(path)) return false;
             File.Create(path);
             return true;
@@ -46,8 +45,7 @@ namespace SimpleWebEditorApplication.Core.Models
 
         public bool DeleteFile()
         {
-            var dir = Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer");
-            var path = dir + PagePath;
+            var path = CalculatePath();
             if (!File.Exists(path)) return false;
             try
             {
@@ -58,6 +56,20 @@ namespace SimpleWebEditorApplication.Core.Models
             {
                 return false;
             }
+        }
+
+        public bool OverwriteFile(string htmlCode)
+        {
+            var path = CalculatePath();
+            if (!File.Exists(path)) return false;
+            File.WriteAllText(path, htmlCode);
+            return true;
+        }
+
+        private string CalculatePath()
+        {
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer");
+            return dir + PagePath;
         }
     }
 }
