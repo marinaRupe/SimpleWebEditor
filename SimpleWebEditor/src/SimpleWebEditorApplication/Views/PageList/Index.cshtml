@@ -1,0 +1,24 @@
+﻿@model List<SimpleWebEditorApplication.Models.PageListViewModels.IndexViewModel>
+
+@{
+    ViewBag.Title = "Page editor";
+    Layout = "_Layout";
+}
+
+<h1 style="text-align: center">Published pages</h1>
+<hr />
+<table id="page-list" class="table table-striped table-hover ">
+    <tbody>
+        <tr>
+            <th>Username</th>
+            <th>Page link</th>
+        </tr>
+    @foreach (var page in Model)
+    {
+        <tr>
+            <td>@page.Username</td>
+            <td><a target='_blank' href="@page.Link">See page</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
