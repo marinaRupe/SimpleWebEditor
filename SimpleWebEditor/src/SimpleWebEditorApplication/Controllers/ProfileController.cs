@@ -1,6 +1,11 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SimpleWebEditorApplication.Core.Interfaces;
+using SimpleWebEditorApplication.Core.Models;
+using SimpleWebEditorApplication.Models;
 using SimpleWebEditorApplication.Models.ProfileViewModels;
 
 namespace SimpleWebEditorApplication.Controllers
@@ -9,20 +14,20 @@ namespace SimpleWebEditorApplication.Controllers
     public class ProfileController : Controller
     {
         private readonly IndexViewModel _userData;
-        public ProfileController()
+
+        private readonly IAccountRepository _accountRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public ProfileController(IAccountRepository accountRepository, UserManager<ApplicationUser> userManager)
         {
-            _userData = new IndexViewModel
-            {
-                Username = "marince6",
-                Email = "marina.rupe@fer.hr",
-                FirstName = "Marina",
-                LastName = "Rupe",
-                BirthDate = new DateTime(1995, 12, 6)
-            };
+            _accountRepository = accountRepository;
+            _userManager = userManager;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View(_userData);
+            var acc = await GetCurrentUserAccountAsync();
+            return View(await CreateIndexViewModel(acc));
         }
 
         public IActionResult Edit()
@@ -31,13 +36,41 @@ namespace SimpleWebEditorApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditViewModel model)
+        public async Task<IActionResult> Edit(EditViewModel model)
         {
-            _userData.FirstName = model.FirstName;
-            _userData.LastName = model.LastName;
-            _userData.BirthDate = model.BirthDate;
+            var acc = await GetCurrentUserAccountAsync();
 
-            return View("Index", _userData);
+            acc.FirstName = model.FirstName ?? acc.FirstName;
+            acc.LastName = model.LastName ?? acc.LastName;
+            acc.BirthDate = model.BirthDate.Equals(default(DateTime)) ? acc.BirthDate : model.BirthDate;
+            _accountRepository.Update(acc);
+
+            return View("Index", await CreateIndexViewModel(acc));
+        }
+
+        private async Task<IndexViewModel> CreateIndexViewModel(Account acc)
+        {
+            var user = await GetCurrentUserAsync();
+            var model = new IndexViewModel
+            {
+                Username = acc.UserName,
+                Email = user.Email,
+                FirstName = acc.FirstName,
+                LastName = acc.LastName,
+                BirthDate = acc.BirthDate.GetValueOrDefault()
+            };
+            return model;
+        }
+
+        private async Task<Account> GetCurrentUserAccountAsync()
+        {
+            var user = await GetCurrentUserAsync();
+            return _accountRepository.Get(user.UserName);
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
         }
     }
 }

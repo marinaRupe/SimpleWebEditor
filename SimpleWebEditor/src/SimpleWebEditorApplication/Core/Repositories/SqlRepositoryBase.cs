@@ -20,6 +20,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
                 return false;
             }
             _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
             return true;
         }
 

@@ -112,7 +112,7 @@ namespace SimpleWebEditorApplication
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer")),
                     RequestPath = new PathString(FILE_SERVER),
-                    EnableDirectoryBrowsing = true
+                    EnableDirectoryBrowsing = true //TODO: false
             });
 
             app.UseIdentity();
