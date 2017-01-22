@@ -1,9 +1,3 @@
-const HTML_FILES_PATH = '...';
-const FILES_PATH = '...';
-const CSS_FILES_PATH = '...';
-const JS_FILES_PATH = '...';
-
-
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');

@@ -1,37 +1,35 @@
 const TEMPLATES_PATH = '../html/templates/';
-const PICTURES_PATH = FILES_PATH + '/pictures/';
 const TEMPLATE_PICTURES_PATH = "../images/";
-const SAVE_WORK_PAGE_PATH = HTML_FILES_PATH + '/saveWorkPage';
-const SAVE_PUBLISHED_PAGE_PATH = HTML_FILES_PATH + '/savePublishedPage';
-const LOAD_WORK_PAGE_PATH = HTML_FILES_PATH + '/getWorkPage';
-const LOAD_PUBLISHED_PAGE_PATH = HTML_FILES_PATH + '/getPublishedPage';
-
-const PAGE_TYPE_COOKIE = "ChildWeb.pageType";
-const PUBLISHED_PAGE = "PUBLISHED_PAGE";
-const WORK_PAGE = "WORK_PAGE";
 
 const SAVED_PAGE_MESSAGE = "Changes are successfully saved.";
 const PAGE_NOT_SAVED_MESSAGE = "Failed to save changes.";
 const PUBLISHED_PAGE_MESSAGE = "Page has been successfully published.";
 const PAGE_NOT_PUBLISHED_MESSAGE = "Failed to publish page";
 
+const PAGE_TYPE_COOKIE = "PageTypeCookie";
+var SAVE_PAGE_PATH = myApp.Urls.savePageAction;
+var PUBLISH_PAGE_PATH = myApp.Urls.publishPageAction;
+
 pageEditorSetup();
 
 function pageEditorSetup() {
-    setOpenInNewWindowButton(LOAD_WORK_PAGE_PATH);
-    setSavePageButton();
-    setPublishPageButton();
-
     showEditPanelHeader(document.getElementById("editPanel"));
     loadTemplates(document.getElementById("templatesPanel"));
 }
 
-
-function loadPage(pagePath) {
+function loadPage(pagePath, pageType) {
     loadPageToEditor(pagePath);
+    setCookie(PAGE_TYPE_COOKIE, pageType);
     setOpenInNewWindowButton(pagePath);
 }
 
+function publishPage() {
+    savePage(PUBLISH_PAGE_PATH, PUBLISHED_PAGE_MESSAGE, PAGE_NOT_PUBLISHED_MESSAGE);
+}
+
+function saveToWorkPage() {
+    savePage(SAVE_PAGE_PATH, SAVED_PAGE_MESSAGE, PAGE_NOT_SAVED_MESSAGE);
+}
 
 function setOpenInNewWindowButton(pageLink) {
     $(document).ready(function () {
@@ -40,24 +38,6 @@ function setOpenInNewWindowButton(pageLink) {
 
         $("#openInNewWindowButton").click(function () {
             window.open(pageLink);
-        });
-    });
-}
-
-
-function setSavePageButton() {
-    $(document).ready(function () {
-        $("#savePageButton").click(function () {
-            savePage(getCookie(PAGE_TYPE_COOKIE), SAVED_PAGE_MESSAGE, PAGE_NOT_SAVED_MESSAGE);
-        });
-    });
-}
-
-
-function setPublishPageButton() {
-    $(document).ready(function () {
-        $("#publishPageButton").click(function () {
-            publishPage();
         });
     });
 }
@@ -89,9 +69,7 @@ function chooseTemplate(templateIndex) {
 
     emptyPageEditor();
     loadPageToEditor(templatePath);
-
-    setCookie(PAGE_TYPE_COOKIE, WORK_PAGE);
-    setOpenInNewWindowButton(templatePath); //TODO: change
+    setOpenInNewWindowButton(templatePath);
 }
 
 
@@ -131,12 +109,12 @@ function addChangeOptions(element) {
                 });
             });
         }
-        addChangeOptions(child)
+        addChangeOptions(child);
     }
 }
 
 
-function savePage(pageType, successMessage, errorMessage) {
+function savePage(url, successMessage, errorMessage) {
     var pageContainer = document.getElementById("loadedPageFrame");
     removeContentEditableProperties(pageContainer);
     resetLocalPicturePathForHtml(pageContainer);
@@ -146,27 +124,17 @@ function savePage(pageType, successMessage, errorMessage) {
     + '</body></html>')
         .replace(/\t/g, '    ');
 
-    var data = JSON.stringify({ "html": loadedPageHtml });
-
-    var url;
-    if (pageType == WORK_PAGE) {
-        url = SAVE_WORK_PAGE_PATH;
-    }
-    else if (pageType == PUBLISHED_PAGE) {
-        url = SAVE_PUBLISHED_PAGE_PATH;
-    } else {
-        url = SAVE_WORK_PAGE_PATH;
-    }
+    var data = { "html": loadedPageHtml };
 
     $.ajax({
         type: "POST",
         url: url,
         data: data,
-        cache: false,
-        contentType: 'application/json; charset=UTF-8',
+        traditional: true,
+        //cache: false,
         success: function (data, textStatus, jqXHR) {
             alert(successMessage);
-            resetEditorPage(pageType);
+            resetEditorPage();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorMessage);
@@ -179,13 +147,9 @@ function savePage(pageType, successMessage, errorMessage) {
 }
 
 
-function publishPage() {
-    savePage(PUBLISHED_PAGE, PUBLISHED_PAGE_MESSAGE, PAGE_NOT_PUBLISHED_MESSAGE);
-}
-
-
-function resetEditorPage(pageType) {
-    if (pageType == PUBLISHED_PAGE) {
+function resetEditorPage() {
+    var pageType = getCookie(PAGE_TYPE_COOKIE);
+    if (pageType === 'PUBLISHED_PAGE') {
         $("#loadPublishedPageButton").click();
     } else {
         $("#loadWorkPageButton").click();
@@ -201,7 +165,7 @@ function addContentEditableProperties(element) {
         if (child.id != '' && (tagName == 'h1' || tagName == 'h3')) {
             child.contentEditable = true;
         }
-        addContentEditableProperties(child)
+        addContentEditableProperties(child);
     }
 }
 
@@ -213,7 +177,7 @@ function removeContentEditableProperties(element) {
         if (child.id != '' && (tagName == 'h1' || tagName == 'h3')) {
             child.contentEditable = false;
         }
-        removeContentEditableProperties(child)
+        removeContentEditableProperties(child);
     }
 }
 
@@ -244,21 +208,6 @@ function resetLocalPicturePathForHtml(element) {
                 child.setAttribute('src', '../' + imgSrc);
             }
         }
-        resetLocalPicturePathForHtml(child)
+        resetLocalPicturePathForHtml(child);
     }
-}
-
-
-
-
-function setLoadInsidePageButton(pageLink) {
-    $(document).ready(function () {
-        //remove previous on-click event listeners
-        $("#loadInsidePageButton").unbind("click");
-
-        //add new on-click event listener
-        $("#loadInsidePageButton").click(function () {
-            loadPageToEditor(pageLink);
-        });
-    });
 }

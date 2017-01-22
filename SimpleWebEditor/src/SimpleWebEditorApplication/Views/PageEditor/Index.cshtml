@@ -41,12 +41,12 @@
 
 
 <div id="headerMenu" class="btn-group btn-group-justified">
-    <a id="loadWorkPageButton" class="btn btn-primary btn-sm" onclick="loadPage(@Model.WorkPagePath)">Load work page</a>
-    <a id="loadPublishedPageButton" class="btn btn-primary btn-sm" onclick="loadPage(@Model.PublishedPagePath)">Load published page</a>
+    <a id="loadWorkPageButton" class="btn btn-primary btn-sm" onclick="loadPage(@Model.WorkPagePath, 'WORK_PAGE')">Load work page</a>
+    <a id="loadPublishedPageButton" class="btn btn-primary btn-sm" onclick="loadPage(@Model.PublishedPagePath, 'PUBLISHED_PAGE')">Load published page</a>
     <a id="removeInsidePageButton" class="btn btn-primary btn-sm" onclick="emptyPageEditor()">Remove page</a>
     <a id="openInNewWindowButton" class="btn btn-primary btn-sm">Open in new window</a>
-    <a id="savePageButton" class="btn btn-primary btn-sm">Save changes</a>
-    <a id="publishPageButton" class="btn btn-info btn-sm">Publish page</a>
+    <a id="savePageButton" class="btn btn-primary btn-sm" onclick="saveToWorkPage()">Save changes</a>
+    <a id="publishPageButton" class="btn btn-info btn-sm" onclick="publishPage()">Publish page</a>
 </div>
 
 <div id="editor" class="row">
@@ -58,7 +58,13 @@
     <p class="chooseTemplateLabel">Choose page template:</p>
 </div>
 
-
+<script>
+    var myApp = myApp || {};
+    myApp.Urls = myApp.Urls || {};
+    myApp.Urls.baseUrl = '@Url.Content("~")';
+    myApp.Urls.savePageAction = '@Url.Action("SavePage","PageEditor")';
+    myApp.Urls.publishPageAction = '@Url.Action("PublishPage","PageEditor")';
+</script>
 <script src="~/js/shared.js" asp-append-version="true"></script>
 <script src="~/js/editPanel.js" asp-append-version="true"></script>
 <script src="~/js/pageEditor.js" asp-append-version="true"></script>

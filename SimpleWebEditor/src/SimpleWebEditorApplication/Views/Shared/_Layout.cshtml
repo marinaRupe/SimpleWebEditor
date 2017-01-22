@@ -44,12 +44,13 @@
                     {
                         <li><a asp-area="" asp-controller="PageEditor" asp-action="Index">Page editor</a></li>
                         <li><a asp-area="" asp-controller="Profile" asp-action="Index">Profile</a></li>
-                        <li><a asp-area="" asp-controller="Help" asp-action="Index">Help</a></li>
+                        
                     }
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li><a asp-area="" asp-controller="AdminPanel" asp-action="Index">Admin panel</a></li>
-                    }
+                    
+                    <!-- TODO: admin panel and sending user requests
+                    <li><a asp-area="" asp-controller="Help" asp-action="Index">Help</a></li>
+                    <li><a asp-area="" asp-controller="AdminPanel" asp-action="Index">Admin panel</a></li>
+                    -->
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

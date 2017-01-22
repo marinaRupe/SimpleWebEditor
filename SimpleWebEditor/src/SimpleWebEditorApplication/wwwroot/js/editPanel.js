@@ -1,4 +1,3 @@
-//TODO: check tag name
 function showEditPanel(elementToChange) {
     var editPanel = document.getElementById("editPanel");
 
