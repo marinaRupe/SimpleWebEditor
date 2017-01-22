@@ -13,8 +13,6 @@ namespace SimpleWebEditorApplication.Controllers
     [Authorize]
     public class ProfileController : Controller
     {
-        private readonly IndexViewModel _userData;
-
         private readonly IAccountRepository _accountRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 

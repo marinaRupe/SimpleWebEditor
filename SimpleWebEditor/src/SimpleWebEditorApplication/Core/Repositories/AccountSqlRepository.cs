@@ -22,10 +22,13 @@ namespace SimpleWebEditorApplication.Core.Repositories
                 return false;
             }
             _context.Accounts.Add(item);
+
+            // create pages
             var workPage = new Page(item, false);
             _context.Pages.Add(workPage);
             var publishedPage = new Page(item, true);
             _context.Pages.Add(publishedPage);
+
             _context.SaveChanges();
             return true;
         }
@@ -46,8 +49,13 @@ namespace SimpleWebEditorApplication.Core.Repositories
             {
                 return false;
             }
-            item.WorkPage.DeleteFile();
-            item.PublishedPage.DeleteFile();
+
+            // delete pages
+            var workPage = _context.Pages.FirstOrDefault(p => p.Owner.UserName.Equals(item.UserName) && !p.IsPublished);
+            workPage?.DeleteFile();
+            var publishedPage = _context.Pages.FirstOrDefault(p => p.Owner.UserName.Equals(item.UserName) && p.IsPublished);
+            publishedPage?.DeleteFile();
+
             _context.Accounts.Remove(item);
             _context.SaveChanges();
             return true;

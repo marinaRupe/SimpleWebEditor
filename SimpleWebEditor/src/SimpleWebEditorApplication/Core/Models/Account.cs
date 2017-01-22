@@ -21,16 +21,6 @@ namespace SimpleWebEditorApplication.Core.Models
 
         public List<Page> Pages { get; set; }
 
-        public Page WorkPage
-        {
-            get { return Pages.Find(p => !p.IsPublished); }
-        }
-
-        public Page PublishedPage
-        {
-            get { return Pages.Find(p => p.IsPublished); }
-        }
-
         public Account()
         {
             // entity framework needs this one

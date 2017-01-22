@@ -57,7 +57,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
 
         public Page GetByOwner(Account owner, bool published)
         {
-            return _context.Pages.FirstOrDefault(p => p.Owner.Equals(owner) && p.IsPublished == published);
+            return _context.Pages.FirstOrDefault(p => p.Owner.UserName.Equals(owner.UserName) && p.IsPublished == published);
         }
     }
 }

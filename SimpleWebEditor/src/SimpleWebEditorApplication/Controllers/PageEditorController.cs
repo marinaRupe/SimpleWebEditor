@@ -1,6 +1,11 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SimpleWebEditorApplication.Core.Interfaces;
+using SimpleWebEditorApplication.Core.Models;
+using SimpleWebEditorApplication.Models;
 using SimpleWebEditorApplication.Models.PageEditorViewModels;
 
 namespace SimpleWebEditorApplication.Controllers
@@ -8,28 +13,61 @@ namespace SimpleWebEditorApplication.Controllers
     [Authorize]
     public class PageEditorController : Controller
     {
-        public IActionResult Index()
+        private readonly IAccountRepository _accountRepository;
+        private readonly IPageRepository _pageRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public PageEditorController(
+            IAccountRepository accountRepository, 
+            IPageRepository pageRepository,
+            UserManager<ApplicationUser> userManager)
         {
+            _accountRepository = accountRepository;
+            _pageRepository = pageRepository;
+            _userManager = userManager;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await CreateIndexViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SavePage(string html)
+        {
+            var acc = await GetCurrentUserAccountAsync();
+            _pageRepository.GetByOwner(acc, false).OverwriteFile(html);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PublishPage(string html)
+        {
+            var acc = await GetCurrentUserAccountAsync();
+            _pageRepository.GetByOwner(acc, true).OverwriteFile(html);
+            return RedirectToAction("Index");
+        }
+
+        private async Task<IndexViewModel> CreateIndexViewModel()
+        {
+            var acc = await GetCurrentUserAccountAsync();
             var model = new IndexViewModel
             {
-                WorkPagePath = "'../html/templates/template7.html'",
-                PublishedPagePath = "'../html/templates/template8.html'",
+                WorkPagePath = _pageRepository.GetByOwner(acc, false).PagePath,
+                PublishedPagePath = _pageRepository.GetByOwner(acc, true).PagePath
             };
-            return View(model);
+            return model;
         }
 
-        [HttpPost]
-        public IActionResult SavePage(string html)
+        private async Task<Account> GetCurrentUserAccountAsync()
         {
-            //TODO: save html string to user's work page
-            return RedirectToAction("Index");
+            var user = await GetCurrentUserAsync();
+            return _accountRepository.Get(user.UserName);
         }
 
-        [HttpPost]
-        public IActionResult PublishPage(string html)
+        private Task<ApplicationUser> GetCurrentUserAsync()
         {
-            //TODO: save html string to user's published page
-            return RedirectToAction("Index");
+            return _userManager.GetUserAsync(HttpContext.User);
         }
     }
 }
