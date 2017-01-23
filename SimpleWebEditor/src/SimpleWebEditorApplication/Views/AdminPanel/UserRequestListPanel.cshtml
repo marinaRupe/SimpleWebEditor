@@ -1,53 +1,35 @@
-﻿@model dynamic
+﻿@model List<SimpleWebEditorApplication.Models.AdminPanelViewModels.UserRequestListPanelViewModel>
 
 @{
     ViewBag.Title = "Admin panel";
     Layout = "_Layout";
 }
 
-<section id="main">
-    <h1>Administrator </h1>
+<h1>Administrator </h1>
+<hr />
+
+<div class="container">
+    @Html.Partial("AdminPanelTabs")
     <hr />
-    <div class="container">
 
-        @Html.Partial("AdminPanelTabs")
-        <hr />
+    <h1 style="text-align: center">User request list</h1>
+    <hr />
 
-        <h1 style="text-align: center">User request list</h1>
-        <hr />
-        <table id="page-list" class="table table-striped table-hover "></table>
-
-        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-
-        <script type="text/javascript">
-            var data = [];
-            
-
-
-            var options = {
-                columns: [
-                    {
-                        title: "User",
-                        data: "author",
-                    },
-                    {
-                        title: "Request",
-                        data: "content",
-                    },
-                    {
-                        title: "Delete request",
-                        data: "deleteLink",
-                        render: function (author, link, objekt) {
-                            return "<a href='" + objekt.deleteLink + "'>" + "delete" + "</a>";
-                        }
-                    }
-                ],
-                data: data,
-                scrollY: '300px'
-            };
-
-            $("#page-list").DataTable(options);
-        </script></div>
-
-</section>
+    <table id="page-list" class="table table-striped table-hover ">
+        <tbody>
+            <tr>
+                <th>Username</th>
+                <th>Request</th>
+                <th>Remove request</th>
+            </tr>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.Username</td>
+                    <td>@request.Request</td>
+                    <td><a target='_blank' href="www.google.com">Remove</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
