@@ -53,8 +53,8 @@ namespace SimpleWebEditorApplication.Controllers
             var acc = await GetCurrentUserAccountAsync();
             var model = new IndexViewModel
             {
-                WorkPagePath = _pageRepository.GetByOwner(acc, false).RequestPagePath(),
-                PublishedPagePath = _pageRepository.GetByOwner(acc, true).RequestPagePath()
+                WorkPagePath = "'" +_pageRepository.GetByOwner(acc, false).RequestPagePath() + "'",
+                PublishedPagePath = "'" + _pageRepository.GetByOwner(acc, true).RequestPagePath() + "'"
             };
             return model;
         }

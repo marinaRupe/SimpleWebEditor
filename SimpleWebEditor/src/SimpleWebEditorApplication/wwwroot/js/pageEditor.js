@@ -10,6 +10,8 @@ const PAGE_TYPE_COOKIE = "PageTypeCookie";
 var SAVE_PAGE_PATH = myApp.Urls.savePageAction;
 var PUBLISH_PAGE_PATH = myApp.Urls.publishPageAction;
 
+var BASE_URL = myApp.Urls.baseUrl;
+
 pageEditorSetup();
 
 function pageEditorSetup() {
@@ -18,6 +20,7 @@ function pageEditorSetup() {
 }
 
 function loadPage(pagePath, pageType) {
+    pagePath = BASE_URL + pagePath;
     loadPageToEditor(pagePath);
     setCookie(PAGE_TYPE_COOKIE, pageType);
     setOpenInNewWindowButton(pagePath);
