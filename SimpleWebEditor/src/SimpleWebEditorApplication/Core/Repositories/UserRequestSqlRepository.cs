@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using SimpleWebEditorApplication.Core.Interfaces;
 using SimpleWebEditorApplication.Core.Models;
@@ -34,7 +35,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
 
         public override IEnumerable<UserRequest> GetAll()
         {
-            return new List<UserRequest>(_context.UserRequests);
+            return new List<UserRequest>(_context.UserRequests.Include(ur => ur.Sender));
         }
 
         public override bool Remove(UserRequest item)

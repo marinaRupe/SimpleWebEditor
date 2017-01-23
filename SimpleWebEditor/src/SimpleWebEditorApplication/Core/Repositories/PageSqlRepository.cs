@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using SimpleWebEditorApplication.Core.Interfaces;
 using SimpleWebEditorApplication.Core.Models;
@@ -35,7 +36,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
 
         public override IEnumerable<Page> GetAll()
         {
-            return new List<Page>(_context.Pages);
+            return new List<Page>(_context.Pages.Include(p => p.Owner));
         }
 
         public override bool Remove(Page item)
@@ -52,7 +53,7 @@ namespace SimpleWebEditorApplication.Core.Repositories
 
         public IEnumerable<Page> GetPublished()
         {
-            return new List<Page>(_context.Pages.Where(p => p.IsPublished));
+            return new List<Page>(_context.Pages.Where(p => p.IsPublished).Include(p => p.Owner));
         }
 
         public Page GetByOwner(Account owner, bool published)

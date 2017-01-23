@@ -15,5 +15,6 @@ namespace SimpleWebEditorApplication.Models.PageListViewModels
         [Required]
         [Display(Name = "Link")]
         public string Link { get; set; }
+        
     }
 }
