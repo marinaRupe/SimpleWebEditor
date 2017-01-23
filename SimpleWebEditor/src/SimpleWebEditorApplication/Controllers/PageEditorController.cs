@@ -36,7 +36,8 @@ namespace SimpleWebEditorApplication.Controllers
         public async Task<IActionResult> SavePage(string html)
         {
             var acc = await GetCurrentUserAccountAsync();
-            _pageRepository.GetByOwner(acc, false).OverwriteFile(html);
+            var page = _pageRepository.GetByOwner(acc, false);
+            _pageRepository.UpdatePageCode(page.Id, html);
             return RedirectToAction("Index");
         }
 
@@ -44,7 +45,8 @@ namespace SimpleWebEditorApplication.Controllers
         public async Task<IActionResult> PublishPage(string html)
         {
             var acc = await GetCurrentUserAccountAsync();
-            _pageRepository.GetByOwner(acc, true).OverwriteFile(html);
+            var page = _pageRepository.GetByOwner(acc, true);
+            _pageRepository.UpdatePageCode(page.Id, html);
             return RedirectToAction("Index");
         }
 

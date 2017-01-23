@@ -9,5 +9,7 @@ namespace SimpleWebEditorApplication.Core.Interfaces
         IEnumerable<Page> GetPublished();
 
         Page GetByOwner(Account owner, bool published);
+
+        bool UpdatePageCode(Guid pageId, string htmlCode);
     }
 }

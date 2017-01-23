@@ -31,7 +31,7 @@ namespace SimpleWebEditorApplication.Core.Models
             Id = Guid.NewGuid();
             Owner = owner;
             IsPublished = published;
-            PagePath = (published ? PUBLISHED_PAGE_PATH : WORK_PAGE_PATH) + owner.UserName + ".html";
+            ResetPagePath();
             CreateFile();
         }
 
@@ -63,12 +63,19 @@ namespace SimpleWebEditorApplication.Core.Models
             }
         }
 
-        public bool OverwriteFile(string htmlCode)
+        // MUST UPDATE DATABASE
+        public void OverwriteFile(string htmlCode)
         {
+            DeleteFile();
+            ResetPagePath();
             var path = CalculatePath();
-            if (!File.Exists(path)) return false;
             File.WriteAllText(path, htmlCode);
-            return true;
+        }
+
+        // MUST UPDATE DATABASE
+        private void ResetPagePath()
+        {
+            PagePath = (IsPublished ? PUBLISHED_PAGE_PATH : WORK_PAGE_PATH) + Owner.UserName + Guid.NewGuid() + ".html";
         }
 
         private string CalculatePath()

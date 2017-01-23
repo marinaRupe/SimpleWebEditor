@@ -157,6 +157,7 @@ function resetEditorPage() {
     } else {
         $("#loadWorkPageButton").click();
     }
+    window.location.reload();
 }
 
 
