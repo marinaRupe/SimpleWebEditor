@@ -24,7 +24,7 @@ function setLoadWorkPageButton(pagePath) {
         //remove previous on-click event listeners
         $("#loadWorkPageButton").unbind("click");
         $("#loadWorkPageButton").click(function () {
-            loadPage(pagePath, "WORK_PAGE");
+            loadPage(pagePath);
         });
     });
 }
@@ -34,12 +34,12 @@ function setLoadPublishedPageButton(pagePath) {
         //remove previous on-click event listeners
         $("#loadPublishedPageButton").unbind("click");
         $("#loadPublishedPageButton").click(function () {
-            loadPage(pagePath, "PUBLISHED_PAGE");
+            loadPage(pagePath);
         });
     });
 }
 
-function loadPage(pagePath, pageType) {
+function loadPage(pagePath) {
     loadPageToEditor(pagePath);
     setOpenInNewWindowButton(pagePath);
 }
@@ -98,7 +98,6 @@ function loadPageToEditor(pageLink) {
         const pageContainer = document.getElementById("loadedPageFrame");
         addChangeOptions(pageContainer);
         addContentEditableProperties(pageContainer);
-        setLocalPicturePathForEditor(pageContainer);
     });
 }
 
@@ -112,7 +111,6 @@ function emptyPageEditor() {
     while (editPanel.firstChild) {
         editPanel.removeChild(editPanel.firstChild);
     }
-
     showEditPanelHeader(editPanel);
 }
 
@@ -137,7 +135,6 @@ function addChangeOptions(element) {
 function savePage(url, successMessage, errorMessage, pageType) {
     var pageContainer = document.getElementById("loadedPageFrame");
     removeContentEditableProperties(pageContainer);
-    resetLocalPicturePathForHtml(pageContainer);
 
     var loadedPageHtml = ('<!DOCTYPE html> <html lang="en"><head>'
     + ($("div#loadedPageFrame").html()).replace('</style>', '</style></head><body style="margin: 0">')
@@ -194,36 +191,5 @@ function removeContentEditableProperties(element) {
             child.contentEditable = false;
         }
         removeContentEditableProperties(child);
-    }
-}
-
-
-function setLocalPicturePathForEditor(element) {
-    for (let i = 0; i < element.children.length; i++) {
-        const child = element.children[i];
-        const tagName = child.tagName.toLowerCase();
-
-        if (child.id !== '' && tagName === "img") {
-            var imgSrc = child.getAttribute("src");
-            if (imgSrc.substring(0, 6) === "../../") {
-                child.setAttribute("src", imgSrc.substring(3));
-            }
-        }
-        setLocalPicturePathForEditor(child);
-    }
-}
-
-function resetLocalPicturePathForHtml(element) {
-    for (let i = 0; i < element.children.length; i++) {
-        const child = element.children[i];
-        const tagName = child.tagName.toLowerCase();
-
-        if (child.id !== '' && tagName === "img") {
-            const imgSrc = child.getAttribute("src");
-            if (imgSrc.substring(0, 6) === "../") {
-                child.setAttribute("src", `../${imgSrc}`);
-            }
-        }
-        resetLocalPicturePathForHtml(child);
     }
 }

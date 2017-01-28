@@ -1,29 +1,26 @@
 function showEditPanel(elementToChange) {
-    var editPanel = document.getElementById("editPanel");
+    const editPanel = document.getElementById("editPanel");
 
     //remove child nodes
     if (editPanel.childElementCount != 0) {
-        editPanel.innerHTML = '';
+        editPanel.innerHTML = "";
     }
 
     showEditPanelHeader(editPanel);
     createTitleChanger(editPanel);
 
-    var elementTag = elementToChange.tagName.toLowerCase();
-    if (elementTag == "div") {
+    const elementTag = elementToChange.tagName.toLowerCase();
+    if (elementTag === "div") {
         createBackgroundColorSelector(editPanel, elementToChange);
     }
 
-    else if (elementTag == "h1" || elementTag == "h3") {
+    else if (elementTag === "h1" || elementTag === "h3") {
         createBackgroundColorSelector(editPanel, elementToChange.parentNode);
         createFontColorSelector(editPanel, elementToChange);
         createFontSelector(editPanel, elementToChange);
         createFontSizeSelector(editPanel, elementToChange);
 
-    } /*else if (elementTag == "img") {
-        createImageFromURLSelector(editPanel, elementToChange);
-        createImageFromFileSelector(editPanel, elementToChange);
-    }*/
+    }
     else {
         createBackgroundColorSelector(editPanel, elementToChange.parentNode);
         createFontColorSelector(editPanel, elementToChange);
@@ -71,132 +68,10 @@ function createTitleChanger(parentElement) {
 
     $(document).ready(function () {
         $("#titleInputButton").click(function () {
-            alert("Web page title changed to: " + titleInput.value + ".");
+            alert(`Web page title changed to: ${titleInput.value}.`);
             document.getElementsByTagName("title")[1].innerHTML = titleInput.value;
         });
     });
-}
-
-
-function createImageFromURLSelector(parentElement, elementToChange) {
-    var imageFromURLSelectorLabel = document.createElement("p");
-    imageFromURLSelectorLabel.innerHTML = "Choose image via URL:";
-    imageFromURLSelectorLabel.className = "imageURLPanelLabel";
-    parentElement.appendChild(imageFromURLSelectorLabel);
-
-    var imageFromURLSelectorInputGroup = document.createElement("div");
-    imageFromURLSelectorInputGroup.className = "input-group";
-
-    var imageURLText = document.createElement("input");
-    imageURLText.className = "form-control input-sm";
-    imageFromURLSelectorInputGroup.appendChild(imageURLText);
-
-    var urlUploadButtonSpan = document.createElement("span");
-    urlUploadButtonSpan.className = "input-group-btn";
-
-    var urlUploadButton = document.createElement("button");
-    urlUploadButton.innerHTML = "Load";
-    urlUploadButton.className = "btn-primary btn-sm";
-    urlUploadButtonSpan.appendChild(urlUploadButton);
-
-    imageFromURLSelectorInputGroup.appendChild(urlUploadButtonSpan);
-
-    parentElement.appendChild(imageFromURLSelectorInputGroup);
-
-    urlUploadButton.onclick = function (event) {
-        if (imageURLText.value == null || imageURLText.value == "") {
-            window.alert("Url slike nije unesen");
-        } else {
-            //TODO add url to constants
-            var url = HTML_FILES_PATH + '/uploadPicture';
-            var data = JSON.stringify({ "imageURL": imageURLText.value });
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                cache: false,
-                contentType: 'application/json; charset=UTF-8',
-                success: function (data, textStatus, jqXHR) {
-                    elementToChange.src = data;
-                    alert("Slika je uspješno učitana.");
-                },
-
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("Greška kod učitavanja slike.");
-                    // alert(errorThrown); // check which error is thrown
-                }
-            });
-        }
-    };
-}
-
-
-function createImageFromFileSelector(parentElement, elementToChange) {
-    var imageFromFileSelectorLabel = document.createElement("p");
-    imageFromFileSelectorLabel.innerHTML = "<br />Choose image from computer:";
-    imageFromFileSelectorLabel.className = "imageFilePanelLabel";
-    parentElement.appendChild(imageFromFileSelectorLabel);
-
-    var fileSelectorInputGroup = document.createElement("div");
-    fileSelectorInputGroup.className = "input-group";
-
-    var fileSelector = document.createElement("input");
-    fileSelector.type = "file";
-    fileSelector.className = "uploadFile form-control input-sm";
-    fileSelector.accept = 'image/*';
-    fileSelector.style = "margin-bottom: 0.1em";
-
-    var fileInput;
-    var dataURL;
-    fileSelector.onchange = function (event) {
-        fileInput = event.target;
-        var reader = new FileReader();
-        reader.onload = function () {
-            dataURL = reader.result;
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    };
-
-    fileSelectorInputGroup.appendChild(fileSelector);
-
-    var fileUploadButtonSpan = document.createElement("span");
-    fileUploadButtonSpan.className = "input-group-btn";
-
-    var fileUploadButton = document.createElement("button");
-    fileUploadButton.innerHTML = "Učitaj";
-    fileUploadButton.className = "btn-primary btn-sm";
-    fileUploadButtonSpan.appendChild(fileUploadButton);
-
-    fileSelectorInputGroup.appendChild(fileUploadButtonSpan);
-
-    parentElement.appendChild(fileSelectorInputGroup);
-
-
-    fileUploadButton.onclick = function () {
-        if (fileInput == null) {
-            window.alert("Image is not chosen.");
-        } else {
-            //TODO add url to constants
-            var url = HTML_FILES_PATH + '/uploadPicture';
-            var data = JSON.stringify({ "image": dataURL });
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                cache: false,
-                contentType: 'application/json; charset=UTF-8',
-                success: function (data, textStatus, jqXHR) {
-                    elementToChange.src = data;
-                    alert("Slika je uspješno učitana.");
-                },
-
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("Greška u učitavanju slike.");
-                    // alert(errorThrown); // check which error is thrown
-                }
-            });
-        }
-    };
 }
 
 
@@ -213,7 +88,7 @@ function createBackgroundColorSelector(parentElement, elementToChange) {
     backgroundColorSelector.style.marginBottom = "1em";
 
     parentElement.appendChild(backgroundColorSelector);
-    addColorPickerEventListener(backgroundColorSelector, elementToChange, 'backgroundColor');
+    addColorPickerEventListener(backgroundColorSelector, elementToChange, "backgroundColor");
 }
 
 
@@ -230,13 +105,13 @@ function createFontColorSelector(parentElement, elementToChange) {
     fontColorSelector.style.marginBottom = "1em";
 
     parentElement.appendChild(fontColorSelector);
-    addColorPickerEventListener(fontColorSelector, elementToChange, 'color');
+    addColorPickerEventListener(fontColorSelector, elementToChange, "color");
 }
 
 
 function addColorPickerEventListener(colorPicker, elementToChange, propertyToChange) {
-    $('#' + colorPicker.id).ColorPicker({
-        color: '#0000ff',
+    $(`#${colorPicker.id}`).ColorPicker({
+        color: "#0000ff",
         onShow: function (colpkr) {
             $(colpkr).fadeIn(500);
             return false;
@@ -246,8 +121,8 @@ function addColorPickerEventListener(colorPicker, elementToChange, propertyToCha
             return false;
         },
         onChange: function (hsb, hex, rgb) {
-            $('#' + colorPicker.id).css('backgroundColor', '#' + hex);
-            $('#' + elementToChange.id).css(propertyToChange, '#' + hex);
+            $(`#${colorPicker.id}`).css("backgroundColor", `#${hex}`);
+            $(`#${elementToChange.id}`).css(propertyToChange, `#${hex}`);
         }
     });
 }
@@ -281,13 +156,13 @@ function createFontSelector(parentElement, elementToChange) {
 
     var currentFontFamily = elementToChange.style.fontFamily;
 
-    for (var i in fontFamilies) {
+    for (let i in fontFamilies) {
         var option = document.createElement("option");
         option.value = fontFamilies[i];
         option.innerHTML = fontFamilies[i].split(',')[0];
         option.style.fontFamily = fontFamilies[i];
 
-        if (option.value == currentFontFamily) {
+        if (option.value === currentFontFamily) {
             option.selected = "selected";
         }
         fontSelector.appendChild(option);
@@ -313,12 +188,12 @@ function createFontSizeSelector(parentElement, elementToChange) {
 
     var currentFontSize = elementToChange.style.fontSize;
 
-    for (var i = 1; i <= 40; i++) {
+    for (let i = 1; i <= 40; i++) {
         var option = document.createElement("option");
-        option.value = i + 'px';
+        option.value = i + "px";
         option.innerHTML = i;
 
-        if (option.value == currentFontSize) {
+        if (option.value === currentFontSize) {
             option.selected = "selected";
         }
         fontSizeSelector.appendChild(option);
