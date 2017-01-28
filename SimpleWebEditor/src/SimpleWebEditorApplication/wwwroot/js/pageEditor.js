@@ -1,14 +1,14 @@
-const TEMPLATES_PATH = '../html/templates/';
+var SAVE_PAGE_PATH = myApp.Urls.savePageAction;
+var PUBLISH_PAGE_PATH = myApp.Urls.publishPageAction;
+var BASE_URL = myApp.Urls.baseUrl;
+
+const TEMPLATES_PATH = "../html/templates/";
 const TEMPLATE_PICTURES_PATH = "../images/";
 
 const SAVED_PAGE_MESSAGE = "Changes are successfully saved.";
 const PAGE_NOT_SAVED_MESSAGE = "Failed to save changes.";
 const PUBLISHED_PAGE_MESSAGE = "Page has been successfully published.";
 const PAGE_NOT_PUBLISHED_MESSAGE = "Failed to publish page";
-
-var SAVE_PAGE_PATH = myApp.Urls.savePageAction;
-var PUBLISH_PAGE_PATH = myApp.Urls.publishPageAction;
-var BASE_URL = myApp.Urls.baseUrl;
 
 pageEditorSetup();
 
@@ -56,7 +56,6 @@ function setOpenInNewWindowButton(pageLink) {
     $(document).ready(function () {
         //remove previous on-click event listeners
         $("#openInNewWindowButton").unbind("click");
-
         $("#openInNewWindowButton").click(function () {
             window.open(pageLink);
         });
@@ -65,13 +64,13 @@ function setOpenInNewWindowButton(pageLink) {
 
 
 function loadTemplates(templatesPanel) {
-    for (var i = 1; i <= 8; i++) {
-        var templateImage = document.createElement("img");
+    for (let i = 1; i <= 8; i++) {
+        const templateImage = document.createElement("img");
         templatesPanel.appendChild(templateImage);
 
         templateImage.src = TEMPLATE_PICTURES_PATH + "template" + i.toString() + ".png";
         templateImage.className = "templateImage";
-        templateImage.id = "templateImage" + i.toString();
+        templateImage.id = `templateImage${i.toString()}`;
 
         addChooseTemplateOption(templateImage, i);
     }
@@ -86,7 +85,7 @@ function addChooseTemplateOption(templateImage, templateIndex) {
 
 
 function chooseTemplate(templateIndex) {
-    var templatePath = TEMPLATES_PATH + "template" + templateIndex.toString() + ".html";
+    const templatePath = TEMPLATES_PATH + "template" + templateIndex.toString() + ".html";
 
     emptyPageEditor();
     loadPageToEditor(templatePath);
@@ -96,7 +95,7 @@ function chooseTemplate(templateIndex) {
 
 function loadPageToEditor(pageLink) {
     $("#loadedPageFrame").load(pageLink, function () {
-        var pageContainer = document.getElementById("loadedPageFrame");
+        const pageContainer = document.getElementById("loadedPageFrame");
         addChangeOptions(pageContainer);
         addContentEditableProperties(pageContainer);
         setLocalPicturePathForEditor(pageContainer);
@@ -105,8 +104,8 @@ function loadPageToEditor(pageLink) {
 
 
 function emptyPageEditor() {
-    var pageContainer = document.getElementById("loadedPageFrame");
-    var editPanel = document.getElementById("editPanel");
+    const pageContainer = document.getElementById("loadedPageFrame");
+    const editPanel = document.getElementById("editPanel");
     while (pageContainer.firstChild) {
         pageContainer.removeChild(pageContainer.firstChild);
     }
@@ -119,12 +118,12 @@ function emptyPageEditor() {
 
 
 function addChangeOptions(element) {
-    for (var i = 0; i < element.children.length; i++) {
+    for (let i = 0; i < element.children.length; i++) {
         var child = element.children[i];
-        if (child.id != '') {
+        if (child.id !== "") {
             $(document).ready(function () {
                 $("#" + child.id).click(function (event) {
-                    var event = event || window.event;
+                    event = event || window.event;
                     showEditPanel(this);
                     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
                 });
@@ -143,7 +142,7 @@ function savePage(url, successMessage, errorMessage, pageType) {
     var loadedPageHtml = ('<!DOCTYPE html> <html lang="en"><head>'
     + ($("div#loadedPageFrame").html()).replace('</style>', '</style></head><body style="margin: 0">')
     + '</body></html>')
-        .replace(/\t/g, '    ');
+        .replace(/\t/g, "    ");
 
     var data = { "html": loadedPageHtml };
 
@@ -155,33 +154,31 @@ function savePage(url, successMessage, errorMessage, pageType) {
         //cache: false,
         success: function (response) {
             const pagePath = response.responseText;
-            
+
             if (pageType === "WORK_PAGE") {
                 setLoadWorkPageButton(pagePath);
             } else {
                 setLoadPublishedPageButton(pagePath);
             }
 
-            loadPageToEditor(pagePath);
+            loadPage(pagePath);
             alert(successMessage);         
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function () {
             alert(errorMessage);
-            // alert(errorThrown); // check which error is thrown
             addContentEditableProperties(pageContainer);
-            setLocalPicturePathForEditor(pageContainer);
+            //setLocalPicturePathForEditor(pageContainer);
         }
     });
-
 }
 
 
 function addContentEditableProperties(element) {
-    for (var i = 0; i < element.children.length; i++) {
-        var child = element.children[i];
-        var tagName = child.tagName.toLowerCase();
+    for (let i = 0; i < element.children.length; i++) {
+        const child = element.children[i];
+        const tagName = child.tagName.toLowerCase();
 
-        if (child.id != '' && (tagName == 'h1' || tagName == 'h3')) {
+        if (child.id !== "" && (tagName === "h1" || tagName === "h3")) {
             child.contentEditable = true;
         }
         addContentEditableProperties(child);
@@ -189,11 +186,11 @@ function addContentEditableProperties(element) {
 }
 
 function removeContentEditableProperties(element) {
-    for (var i = 0; i < element.children.length; i++) {
-        var child = element.children[i];
-        var tagName = child.tagName.toLowerCase();
+    for (let i = 0; i < element.children.length; i++) {
+        const child = element.children[i];
+        const tagName = child.tagName.toLowerCase();
 
-        if (child.id != '' && (tagName == 'h1' || tagName == 'h3')) {
+        if (child.id !== "" && (tagName === "h1" || tagName === "h3")) {
             child.contentEditable = false;
         }
         removeContentEditableProperties(child);
@@ -202,14 +199,14 @@ function removeContentEditableProperties(element) {
 
 
 function setLocalPicturePathForEditor(element) {
-    for (var i = 0; i < element.children.length; i++) {
-        var child = element.children[i];
-        var tagName = child.tagName.toLowerCase();
+    for (let i = 0; i < element.children.length; i++) {
+        const child = element.children[i];
+        const tagName = child.tagName.toLowerCase();
 
-        if (child.id != '' && tagName === 'img') {
-            var imgSrc = child.getAttribute('src');
-            if (imgSrc.substring(0, 6) === '../../') {
-                child.setAttribute('src', imgSrc.substring(3));
+        if (child.id !== '' && tagName === "img") {
+            var imgSrc = child.getAttribute("src");
+            if (imgSrc.substring(0, 6) === "../../") {
+                child.setAttribute("src", imgSrc.substring(3));
             }
         }
         setLocalPicturePathForEditor(child);
@@ -217,14 +214,14 @@ function setLocalPicturePathForEditor(element) {
 }
 
 function resetLocalPicturePathForHtml(element) {
-    for (var i = 0; i < element.children.length; i++) {
-        var child = element.children[i];
-        var tagName = child.tagName.toLowerCase();
+    for (let i = 0; i < element.children.length; i++) {
+        const child = element.children[i];
+        const tagName = child.tagName.toLowerCase();
 
-        if (child.id != '' && tagName === 'img') {
-            var imgSrc = child.getAttribute('src');
-            if (imgSrc.substring(0, 6) === '../') {
-                child.setAttribute('src', '../' + imgSrc);
+        if (child.id !== '' && tagName === "img") {
+            const imgSrc = child.getAttribute("src");
+            if (imgSrc.substring(0, 6) === "../") {
+                child.setAttribute("src", `../${imgSrc}`);
             }
         }
         resetLocalPicturePathForHtml(child);
