@@ -38,7 +38,8 @@ namespace SimpleWebEditorApplication.Controllers
             var acc = await GetCurrentUserAccountAsync();
             var page = _pageRepository.GetByOwner(acc, false);
             _pageRepository.UpdatePageCode(page.Id, html);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return Json(new { success = true, responseText = _pageRepository.GetByOwner(acc, false).RequestPagePath()});
         }
 
         [HttpPost]
@@ -47,7 +48,8 @@ namespace SimpleWebEditorApplication.Controllers
             var acc = await GetCurrentUserAccountAsync();
             var page = _pageRepository.GetByOwner(acc, true);
             _pageRepository.UpdatePageCode(page.Id, html);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return Json(new { success = true, responseText = _pageRepository.GetByOwner(acc, true).RequestPagePath() });
         }
 
         private async Task<IndexViewModel> CreateIndexViewModel()

@@ -6,10 +6,8 @@ const PAGE_NOT_SAVED_MESSAGE = "Failed to save changes.";
 const PUBLISHED_PAGE_MESSAGE = "Page has been successfully published.";
 const PAGE_NOT_PUBLISHED_MESSAGE = "Failed to publish page";
 
-const PAGE_TYPE_COOKIE = "PageTypeCookie";
 var SAVE_PAGE_PATH = myApp.Urls.savePageAction;
 var PUBLISH_PAGE_PATH = myApp.Urls.publishPageAction;
-
 var BASE_URL = myApp.Urls.baseUrl;
 
 pageEditorSetup();
@@ -17,21 +15,41 @@ pageEditorSetup();
 function pageEditorSetup() {
     showEditPanelHeader(document.getElementById("editPanel"));
     loadTemplates(document.getElementById("templatesPanel"));
+    setLoadWorkPageButton(BASE_URL + myApp.Urls.workPagePath);
+    setLoadPublishedPageButton(BASE_URL + myApp.Urls.publishedPagePath);
+}
+
+function setLoadWorkPageButton(pagePath) {
+    $(document).ready(function () {
+        //remove previous on-click event listeners
+        $("#loadWorkPageButton").unbind("click");
+        $("#loadWorkPageButton").click(function () {
+            loadPage(pagePath, "WORK_PAGE");
+        });
+    });
+}
+
+function setLoadPublishedPageButton(pagePath) {
+    $(document).ready(function () {
+        //remove previous on-click event listeners
+        $("#loadPublishedPageButton").unbind("click");
+        $("#loadPublishedPageButton").click(function () {
+            loadPage(pagePath, "PUBLISHED_PAGE");
+        });
+    });
 }
 
 function loadPage(pagePath, pageType) {
-    pagePath = BASE_URL + pagePath;
     loadPageToEditor(pagePath);
-    setCookie(PAGE_TYPE_COOKIE, pageType);
     setOpenInNewWindowButton(pagePath);
 }
 
 function publishPage() {
-    savePage(PUBLISH_PAGE_PATH, PUBLISHED_PAGE_MESSAGE, PAGE_NOT_PUBLISHED_MESSAGE);
+    savePage(PUBLISH_PAGE_PATH, PUBLISHED_PAGE_MESSAGE, PAGE_NOT_PUBLISHED_MESSAGE, "PUBLISHED_PAGE");
 }
 
 function saveToWorkPage() {
-    savePage(SAVE_PAGE_PATH, SAVED_PAGE_MESSAGE, PAGE_NOT_SAVED_MESSAGE);
+    savePage(SAVE_PAGE_PATH, SAVED_PAGE_MESSAGE, PAGE_NOT_SAVED_MESSAGE, "WORK_PAGE");
 }
 
 function setOpenInNewWindowButton(pageLink) {
@@ -117,7 +135,7 @@ function addChangeOptions(element) {
 }
 
 
-function savePage(url, successMessage, errorMessage) {
+function savePage(url, successMessage, errorMessage, pageType) {
     var pageContainer = document.getElementById("loadedPageFrame");
     removeContentEditableProperties(pageContainer);
     resetLocalPicturePathForHtml(pageContainer);
@@ -135,9 +153,17 @@ function savePage(url, successMessage, errorMessage) {
         data: data,
         traditional: true,
         //cache: false,
-        success: function (data, textStatus, jqXHR) {
-            alert(successMessage);
-            resetEditorPage();
+        success: function (response) {
+            const pagePath = response.responseText;
+            
+            if (pageType === "WORK_PAGE") {
+                setLoadWorkPageButton(pagePath);
+            } else {
+                setLoadPublishedPageButton(pagePath);
+            }
+
+            loadPageToEditor(pagePath);
+            alert(successMessage);         
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorMessage);
@@ -147,17 +173,6 @@ function savePage(url, successMessage, errorMessage) {
         }
     });
 
-}
-
-
-function resetEditorPage() {
-    var pageType = getCookie(PAGE_TYPE_COOKIE);
-    if (pageType === 'PUBLISHED_PAGE') {
-        $("#loadPublishedPageButton").click();
-    } else {
-        $("#loadWorkPageButton").click();
-    }
-    window.location.reload();
 }
 
 
@@ -197,7 +212,7 @@ function setLocalPicturePathForEditor(element) {
                 child.setAttribute('src', imgSrc.substring(3));
             }
         }
-        setLocalPicturePathForEditor(child)
+        setLocalPicturePathForEditor(child);
     }
 }
 
