@@ -7,9 +7,9 @@ Nakon registracije odnosno prijave u sustav svaki korisnik dobiva vlastitu stran
 Korisnik u svakom trenu može pogledati podatke o svom korisničkom računu te po potrebi mijenjati one podatke za koje je dozvoljena izmjena.
 
 
-** Članovi tima: ** Petar Kovačević (0036484664) i Marina Rupe (0036483027)
+**Članovi tima: ** Petar Kovačević (0036484664) i Marina Rupe (0036483027)
 
 Surađivali smo oko većeg dijela aplikacije, s time da se Petar malo više bavio backendom, a ja (Marina) frontendom.
 
 
-** URL web aplikacije: ** http://simplewebeditor.azurewebsites.net
+**URL web aplikacije: ** http://simplewebeditor.azurewebsites.net
