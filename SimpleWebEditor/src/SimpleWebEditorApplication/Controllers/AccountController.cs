@@ -161,7 +161,9 @@ namespace SimpleWebEditorApplication.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //TODO: not log in
+                    // don't log in
+                    _logger.LogInformation(3, "Admin created a new account with password.");
+                    return RedirectToAction("UserListPanel", "AdminPanel");
                 }
                 AddErrors(result);
             }

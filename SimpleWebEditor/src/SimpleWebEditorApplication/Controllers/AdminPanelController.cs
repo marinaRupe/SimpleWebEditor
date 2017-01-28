@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SimpleWebEditorApplication.Core.Interfaces;
+using SimpleWebEditorApplication.Models;
 using SimpleWebEditorApplication.Models.AdminPanelViewModels;
 
 namespace SimpleWebEditorApplication.Controllers
@@ -11,31 +14,41 @@ namespace SimpleWebEditorApplication.Controllers
     [Authorize]
     public class AdminPanelController : Controller
     {
+        private readonly IAccountRepository _accountRepository;
+        private readonly IPageRepository _pageRepository;
+        private readonly IUserRequestRepository _userRequestRepository;
+
+        public AdminPanelController(
+            IAccountRepository accountRepository, 
+            IPageRepository pageRepository,
+            IUserRequestRepository userRequestRepository)
+        {
+            _accountRepository = accountRepository;
+            _pageRepository = pageRepository;
+            _userRequestRepository = userRequestRepository;
+        }
+
         public IActionResult Index()
         {
-            //TODO: send list of users
             return RedirectToAction("UserListPanel");
         }
 
         public IActionResult UserListPanel()
         {
-            var userList = new List<UserListPanelViewModel>();
-
-            //TODO: foreach (list of users)
-            for (var i = 0; i < 10; i++)
-            {
-                var user = new UserListPanelViewModel
-                {
-                    Username = "marince",
-                    FirstName = "Marina",
-                    LastName = "Rupe",
-                    Role = "user",
-                    Link = "/UserPages/PublishedPages/marince.html"
-                };
-                userList.Add(user);
-            }
-            
+            var userList = CreateUserListPanelViewModelList();
             return View(userList);
+        }
+
+        private List<UserListPanelViewModel> CreateUserListPanelViewModelList()
+        {
+            return _accountRepository.GetAll().Select(acc => new UserListPanelViewModel
+            {
+                Username = acc.UserName,
+                FirstName = acc.FirstName,
+                LastName = acc.LastName,
+                Role = "blank",
+                Link = _pageRepository.GetByOwner(acc, true).RequestPagePath()
+            }).ToList();
         }
 
         public IActionResult PromoteUserPanel()
@@ -50,19 +63,17 @@ namespace SimpleWebEditorApplication.Controllers
 
         public IActionResult UserRequestListPanel()
         {
-            var requestList = new List<UserRequestListPanelViewModel>();
-
-            //TODO: foreach (list of requests)
-            for (var i = 0; i < 10; i++)
-            {
-                var request = new UserRequestListPanelViewModel
-                {
-                    Username = "marince6",
-                    Request = "Hej pomogni mi"
-                };
-                requestList.Add(request);
-            }
+            var requestList = CreateUserRequestListPanelViewModelList();
             return View(requestList);
+        }
+
+        private List<UserRequestListPanelViewModel> CreateUserRequestListPanelViewModelList()
+        {
+            return _userRequestRepository.GetAll().Select(ur => new UserRequestListPanelViewModel
+            {
+                Username = ur.Sender.UserName,
+                Request = ur.Description
+            }).ToList();
         }
 
         public IActionResult CreateNewUserPanel()
