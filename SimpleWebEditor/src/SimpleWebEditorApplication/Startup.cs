@@ -25,7 +25,7 @@ namespace SimpleWebEditorApplication
     public class Startup
     {
         public const string FILE_SERVER = "/UserPages";
-        private bool _isDevelopment;
+        private readonly bool _isDevelopment;
         
 
         public Startup(IHostingEnvironment env)
