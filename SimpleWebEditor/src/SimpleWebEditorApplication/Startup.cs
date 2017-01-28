@@ -25,6 +25,7 @@ namespace SimpleWebEditorApplication
     public class Startup
     {
         public const string FILE_SERVER = "/UserPages";
+        private bool _isDevelopment;
         
 
         public Startup(IHostingEnvironment env)
@@ -34,10 +35,11 @@ namespace SimpleWebEditorApplication
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
+            _isDevelopment = env.IsDevelopment();
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                // builder.AddUserSecrets();
 
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
@@ -112,7 +114,7 @@ namespace SimpleWebEditorApplication
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), @"UserPagesServer")),
                     RequestPath = new PathString(FILE_SERVER),
-                    EnableDirectoryBrowsing = true //TODO: false
+                    EnableDirectoryBrowsing = _isDevelopment 
             });
 
             app.UseIdentity();
