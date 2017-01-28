@@ -69,5 +69,7 @@ namespace SimpleWebEditorApplication.Controllers
         {
             return View();
         }
+
+       
     }
 }
