@@ -8,6 +8,7 @@
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
         <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="item active">
@@ -49,6 +50,17 @@
                 <p>
                     Publish your webpage.
                     <a class="btn btn-default" asp-area="" asp-controller="PageEditor" asp-action="Index">
+                        Start
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/images/page_list.png" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                    See pages made by others.
+                    <a class="btn btn-default" asp-area="" asp-controller="PageList" asp-action="Index">
                         Start
                     </a>
                 </p>
