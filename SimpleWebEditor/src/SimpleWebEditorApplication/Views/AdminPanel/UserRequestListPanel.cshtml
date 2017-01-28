@@ -27,7 +27,7 @@
                 <tr>
                     <td>@request.Username</td>
                     <td>@request.Request</td>
-                    <td><a target='_blank' href="www.google.com">Remove</a></td>
+                    <td><a asp-area="" asp-controller="AdminPanel" asp-action="DeleteUserRequest" asp-route-id="@request.RequestId">Remove</a></td>
                 </tr>
             }
         </tbody>

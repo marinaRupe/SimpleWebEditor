@@ -71,6 +71,7 @@ namespace SimpleWebEditorApplication.Controllers
         {
             return _userRequestRepository.GetAll().Select(ur => new UserRequestListPanelViewModel
             {
+                RequestId = ur.Id.ToString(),
                 Username = ur.Sender.UserName,
                 Request = ur.Description
             }).ToList();
@@ -81,6 +82,11 @@ namespace SimpleWebEditorApplication.Controllers
             return View();
         }
 
-       
+        [HttpGet]
+        public IActionResult DeleteUserRequest(string id)
+        {
+            _userRequestRepository.Remove(new Guid(id));
+            return RedirectToAction("UserRequestListPanel");
+        }
     }
 }
