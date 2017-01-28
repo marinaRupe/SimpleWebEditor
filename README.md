@@ -7,6 +7,9 @@ Nakon registracije odnosno prijave u sustav svaki korisnik dobiva vlastitu stran
 Korisnik u svakom trenu može pogledati podatke o svom korisničkom računu te po potrebi mijenjati one podatke za koje je dozvoljena izmjena.
 
 
+![alt text](https://github.com/marinaRupe/FER.RAUPJC-PROJEKT/blob/master/SimpleWebEditor/src/SimpleWebEditorApplication/wwwroot/images/edit_page.png "PageEditor")
+
+
  __Članovi tima:__ Petar Kovačević (0036484664) i Marina Rupe (0036483027) 
 
 Surađivali smo oko većeg dijela aplikacije, s time da se Petar malo više bavio backendom, a ja (Marina) frontendom.
