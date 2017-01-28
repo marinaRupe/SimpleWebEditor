@@ -15,4 +15,4 @@ Korisnik u svakom trenu može pogledati podatke o svom korisničkom računu te p
 Surađivali smo oko većeg dijela aplikacije, s time da se Petar malo više bavio backendom, a ja (Marina) frontendom.
 
 
- __URL web aplikacije:__ http://simplewebeditor.azurewebsites.net
+ __URL web aplikacije:__ http://simplewebeditorapp.azurewebsites.net/
