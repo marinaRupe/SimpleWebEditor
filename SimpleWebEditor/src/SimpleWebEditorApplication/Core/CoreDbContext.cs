@@ -17,7 +17,7 @@ namespace SimpleWebEditorApplication.Core
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Account>().HasMany(acc => acc.Pages).WithRequired(p => p.Owner);
-            modelBuilder.Entity<UserRequest>().HasRequired(req => req.Sender).WithOptional();
+            modelBuilder.Entity<UserRequest>().HasRequired(req => req.Sender).WithMany();
         }
     }
 }
