@@ -25,6 +25,7 @@ namespace SimpleWebEditorApplication
     public class Startup
     {
         public const string FILE_SERVER = "/UserPages";
+        public const string ADMIN_ROLE = "Admin";
         private readonly bool _isDevelopment;
         
 
@@ -70,7 +71,10 @@ namespace SimpleWebEditorApplication
                 )
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin"));
+            });
 
             services.AddMvc();
 

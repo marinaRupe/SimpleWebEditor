@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,21 +12,24 @@ using SimpleWebEditorApplication.Models.AdminPanelViewModels;
 
 namespace SimpleWebEditorApplication.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class AdminPanelController : Controller
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IPageRepository _pageRepository;
         private readonly IUserRequestRepository _userRequestRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AdminPanelController(
             IAccountRepository accountRepository, 
             IPageRepository pageRepository,
-            IUserRequestRepository userRequestRepository)
+            IUserRequestRepository userRequestRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _accountRepository = accountRepository;
             _pageRepository = pageRepository;
             _userRequestRepository = userRequestRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -46,7 +50,7 @@ namespace SimpleWebEditorApplication.Controllers
                 Username = acc.UserName,
                 FirstName = acc.FirstName,
                 LastName = acc.LastName,
-                Role = "blank",
+                Role = GetUserRoleAsync(acc.UserName).Result,
                 Link = _pageRepository.GetByOwner(acc, true).RequestPagePath()
             }).ToList();
         }
@@ -57,13 +61,12 @@ namespace SimpleWebEditorApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult PromoteUserPanel(string username)
+        public async Task<IActionResult> PromoteUserPanel(string username)
         {
-            //TODO: promote user to admin
-
-            //if user with given username exist:
-            if (true)
+            var user = await _userManager.FindByNameAsync(username);
+            if (user != null)
             {
+                await _userManager.AddToRoleAsync(user, Startup.ADMIN_ROLE);
                 return RedirectToAction("UserListPanel");
             }
             return View();
@@ -103,10 +106,11 @@ namespace SimpleWebEditorApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteUser(string username)
+        public async Task<IActionResult> DeleteUser(string username)
         {
             _accountRepository.Remove(username);
-            //TODO: remove from other database too
+            var user = await _userManager.FindByNameAsync(username);
+            await _userManager.DeleteAsync(user);
             return RedirectToAction("UserListPanel");
         }
 
@@ -119,15 +123,22 @@ namespace SimpleWebEditorApplication.Controllers
         [HttpPost]
         public IActionResult DeleteUserPage(string username)
         {
-            //TODO: delete published page for user
-
-            //success (username found):
-            if (true)
+            var acc = _accountRepository.Get(username);
+            if (acc != null)
             {
+                var page = _pageRepository.GetByOwner(acc, true);
+                _pageRepository.UpdatePageCode(page.Id, "<html></html>");
                 return RedirectToAction("UserListPanel");
             }
-            //fail
+            // fail
             return View("DeletePagePanel");
+        }
+
+        private async Task<string> GetUserRoleAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles.Count == 0 ? "user" : String.Join(String.Empty, roles);
         }
     }
 }

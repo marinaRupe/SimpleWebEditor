@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,7 @@ namespace SimpleWebEditorApplication.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
@@ -30,6 +32,7 @@ namespace SimpleWebEditorApplication.Controllers
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
@@ -37,12 +40,69 @@ namespace SimpleWebEditorApplication.Controllers
             IAccountRepository accountRepository)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             
             _accountRepository = accountRepository;
+        }
+
+        #region MyHelpers
+
+        private async Task CreateRole(string roleName)
+        {
+            if (!(await _roleManager.RoleExistsAsync(roleName)))
+            {
+                var role = new IdentityRole(roleName);
+                await _roleManager.CreateAsync(role);
+            }
+        }
+
+        private void CreateAccount(
+            ApplicationUser user,
+            string firstName,
+            string lastName,
+            DateTime birthDate)
+        {
+            var coreUser = new Account(user.UserName)
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                BirthDate = birthDate
+            };
+            _accountRepository.Add(coreUser);
+        }
+
+        #endregion
+
+        // Call when starting a new database
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateAdmin()
+        {
+            var roleName = Startup.ADMIN_ROLE;
+            await CreateRole(roleName);
+
+            var username = "Admin";
+            var email = "admin@admin.admin";
+            var password = "papric123";
+
+            var user = new ApplicationUser {UserName = username, Email = email};
+            var result = await _userManager.CreateAsync(user, password);
+           
+            if (result.Succeeded)
+            {
+                CreateAccount(user, username, username, DateTime.Now);
+                _logger.LogInformation(3, "Created Admin.");
+            }
+            else
+            {
+                user = await _userManager.FindByNameAsync(username);
+            }
+
+            await _userManager.AddToRoleAsync(user, roleName);
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -114,16 +174,10 @@ namespace SimpleWebEditorApplication.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-                var coreUser = new Account(model.UserName)
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    BirthDate = model.BirthDate
-                };
-                _accountRepository.Add(coreUser);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    CreateAccount(user, model.FirstName, model.LastName, model.BirthDate);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -141,9 +195,8 @@ namespace SimpleWebEditorApplication.Controllers
             return View(model);
         }
 
-
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Policy = "RequireAdministratorRole")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateNewUser(RegisterViewModel model, string returnUrl = null)
         {
@@ -151,16 +204,10 @@ namespace SimpleWebEditorApplication.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-                var coreUser = new Account(model.UserName)
-                {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    BirthDate = model.BirthDate
-                };
-                _accountRepository.Add(coreUser);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    CreateAccount(user, model.FirstName, model.LastName, model.BirthDate);
                     // don't log in
                     _logger.LogInformation(3, "Admin created a new account with password.");
                     return RedirectToAction("UserListPanel", "AdminPanel");
