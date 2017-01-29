@@ -56,6 +56,19 @@ namespace SimpleWebEditorApplication.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult PromoteUserPanel(string username)
+        {
+            //TODO: promote user to admin
+
+            //if user with given username exist:
+            if (true)
+            {
+                return RedirectToAction("UserListPanel");
+            }
+            return View();
+        }
+
         public IActionResult DeletePagePanel()
         {
             return View();

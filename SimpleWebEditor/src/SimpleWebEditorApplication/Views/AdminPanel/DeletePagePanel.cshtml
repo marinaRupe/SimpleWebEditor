@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model string
 
 @{
     ViewBag.Title = "Admin panel";
@@ -8,9 +8,9 @@
 <h1>Administrator</h1>
 <hr />
 <div class="container">
-
+    
     @Html.Partial("AdminPanelTabs")
-    <hr />
+    <hr/>
 
     <form asp-controller="AdminPanel" asp-action="DeleteUserPage" method="post" class="form-horizontal">
         <fieldset>
@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("UserListPanel", "AdminPanel")'">Cancel</button>
+                    <button type="reset" class="btn btn-default" onclick="location.href = '@Url.Action("UserListPanel", "AdminPanel")'">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
