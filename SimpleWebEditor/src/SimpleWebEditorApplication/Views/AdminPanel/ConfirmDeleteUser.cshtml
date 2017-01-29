@@ -1,0 +1,22 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Delete user";
+    Layout = "_Layout";
+}
+
+<form class="form-horizontal">
+    <fieldset>
+        <h3>Are you sure you want to delete user <b>@Model</b> ?</h3>
+        
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("UserListPanel", "AdminPanel")'">No</button>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary" asp-area="" asp-controller="AdminPanel" asp-action="DeleteUser" asp-route-username ="@Model">Yes</a>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+</form>

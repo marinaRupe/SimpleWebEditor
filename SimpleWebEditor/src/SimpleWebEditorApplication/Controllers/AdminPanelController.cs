@@ -88,5 +88,18 @@ namespace SimpleWebEditorApplication.Controllers
             _userRequestRepository.Remove(new Guid(id));
             return RedirectToAction("UserRequestListPanel");
         }
+
+        [HttpGet]
+        public IActionResult DeleteUser(string username)
+        {
+            _accountRepository.Remove(username);
+            //TODO: remove from other database too
+            return RedirectToAction("UserListPanel");
+        }
+
+        public IActionResult ConfirmDeleteUser(string username)
+        {
+            return View("ConfirmDeleteUser", username);
+        }
     }
 }

@@ -5,49 +5,46 @@
     Layout = "_Layout";
 }
 
-<section id="main">
-    <h1>Administrator </h1>
+<h1>Administrator </h1>
+<hr />
+<div class="container">
+
+    @Html.Partial("AdminPanelTabs")
+
     <hr />
-    <div class="container">
-        
-        @Html.Partial("AdminPanelTabs")
 
-        <hr/>
+    <form class="form-horizontal">
+        <fieldset>
+            <legend>Promote user</legend>
+            <div class="form-group">
+                <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username">
+                </div>
+            </div>
 
-        <form class="form-horizontal">
-            <fieldset>
-                <legend>Promote user</legend>
-                <div class="form-group">
-                    <label for="inputUsername" class="col-lg-2 control-label">Username</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">New role</label>
+                <div class="col-lg-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                            Administrator
+                        </label>
                     </div>
                 </div>
 
+                <hr />
+
+
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">New role</label>
-                    <div class="col-lg-10">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                Administrator
-                            </label>
-                        </div>
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-
-                    <hr/>
-
-
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-
                 </div>
-            </fieldset>
-        </form>
-    </div>
 
-</section>
+            </div>
+        </fieldset>
+    </form>
+</div>
