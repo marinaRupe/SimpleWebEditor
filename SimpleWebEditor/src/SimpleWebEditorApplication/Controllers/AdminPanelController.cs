@@ -97,9 +97,24 @@ namespace SimpleWebEditorApplication.Controllers
             return RedirectToAction("UserListPanel");
         }
 
+        [HttpGet]
         public IActionResult ConfirmDeleteUser(string username)
         {
             return View("ConfirmDeleteUser", username);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteUserPage(string username)
+        {
+            //TODO: delete published page for user
+
+            //success (username found):
+            if (true)
+            {
+                return RedirectToAction("UserListPanel");
+            }
+            //fail
+            return View("DeletePagePanel");
         }
     }
 }
